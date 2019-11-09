@@ -31,6 +31,11 @@ namespace WebStore
                 app.UseDeveloperExceptionPage();
             }
 
+            // For all types files
+            app.UseStaticFiles(/*new StaticFileOptions { ServeUnknownFileTypes = true}*/);
+            app.UseStaticFiles();
+            app.UseDefaultFiles();
+
             //app.Run(async (context) =>
             //{
             //    await context.Response.WriteAsync(Configuration["CustomData"]);
