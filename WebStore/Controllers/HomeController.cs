@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
@@ -25,5 +26,21 @@ namespace WebStore.Controllers
         {
             return Content(_Configuration["CustomData"]);
         }
+
+        private static readonly List<EmployeeView> __Employees = new List<EmployeeView>
+        {
+            new EmployeeView {Id = 1, FirstName = "Иван", SecondName = "Иванов", Patronymic = "Иванович", Age = 40},
+            new EmployeeView {Id = 2, FirstName = "Петр", SecondName = "Петров", Patronymic = "Петрович", Age = 30},
+            new EmployeeView {Id = 3, FirstName = "Сидор", SecondName = "Сидоров", Patronymic = "Сидорович", Age = 20}
+        };
+
+        public IActionResult GetEmployees()
+        {
+            ViewBag.SomeData = "Hello World!";
+            ViewData["Test"] = "TestData";
+
+            return View(__Employees);
+        }
+
     }
 }

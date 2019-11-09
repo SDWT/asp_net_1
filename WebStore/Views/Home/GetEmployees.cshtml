@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WebStore.ViewModels.EmployeeView>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetEmployees</title>
+</head>
+<body>
+    <header>
+        <ul>
+            <a href="/">Home</a>
+            <a href="/home/readconfig">Config</a>
+            <a href="/TestPage.html">TestPage</a>
+            <a href="/home/getemployees">Employees</a>
+        </ul>
+    </header>
+    <content>
+        <h3>@ViewBag.SomeData</h3>
+        <h4>@ViewData["Test"]</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Фамилия</th>
+                    <th>Имя</th>
+                    <th>Отчество</th>
+                    <th>Возраст</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model)
+                {
+                    <tr>
+                        <td>@employee.Id</td>
+                        <td>@employee.FirstName</td>
+                        <td>@employee.SecondName</td>
+                        <td>@employee.Patronymic</td>
+                        <td>@employee.Age</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <hr />
+
+        <ul>
+            @foreach (var employee in Model)
+            {
+                <li><a href="/home/getemployees/@employee.Id">@employee.SecondName</a></li>
+            }
+        </ul>
+    </content>
+    <footer>
+    </footer>
+</body>
+</html>
