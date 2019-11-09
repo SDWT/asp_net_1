@@ -1,0 +1,64 @@
+﻿@model WebStore.ViewModels.EmployeeView
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EmployeeDetails</title>
+    <style>
+        th, td {
+            text-align:left;
+            padding: 5px
+
+
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/home/readconfig">Config</a></li>
+            <li><a href="/TestPage.html">TestPage</a></li>
+            <li><a href="/home/getemployees">Employees</a></li>
+        </ul>
+    </header>
+    <content>
+        <hr />
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">Сотрудник</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>@Model.Id</td>
+                </tr>
+                <tr>
+                    <th>Фамилия</th>
+                    <td>@Model.SecondName</td>
+                </tr>
+                <tr>
+                    <th>Имя</th>
+                    <td>@Model.FirstName</td>
+                </tr>
+                <tr>
+                    <th>Отчество</th>
+                    <td>@Model.Patronymic</td>
+                </tr>
+                <tr>
+                    <th>Возраст</th>
+                    <td>@Model.Age</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+        <li>@Html.ActionLink("Вернуться к списку", "GetEmployees")</li>
+    </content>
+    <footer>
+    </footer>
+</body>
+</html>

@@ -10,10 +10,10 @@
 <body>
     <header>
         <ul>
-            <a href="/">Home</a>
-            <a href="/home/readconfig">Config</a>
-            <a href="/TestPage.html">TestPage</a>
-            <a href="/home/getemployees">Employees</a>
+            <li><a href="/">Home</a></li>
+            <li><a href="/home/readconfig">Config</a></li>
+            <li><a href="/TestPage.html">TestPage</a></li>
+            <li><a href="/home/getemployees">Employees</a></li>
         </ul>
     </header>
     <content>
@@ -33,7 +33,6 @@
                 @foreach (var employee in Model)
                 {
                     <tr>
-                        <td>@employee.Id</td>
                         <td>@employee.FirstName</td>
                         <td>@employee.SecondName</td>
                         <td>@employee.Patronymic</td>
@@ -48,7 +47,7 @@
         <ul>
             @foreach (var employee in Model)
             {
-                <li><a href="/home/getemployees/@employee.Id">@employee.SecondName</a></li>
+                <li>@Html.ActionLink(employee.SecondName, "EmployeeDetails", new { id = employee.Id })</li>
             }
         </ul>
     </content>

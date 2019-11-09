@@ -42,5 +42,21 @@ namespace WebStore.Controllers
             return View(__Employees);
         }
 
+        public IActionResult EmployeeDetails(int id)
+        {
+            EmployeeView result = new EmployeeView
+            { Id = id };
+
+            foreach (var employee in __Employees)
+            {
+                if (employee.Id == id)
+                {
+                    result = employee;
+                    break;
+                }
+            }
+
+            return View(result);
+        }
     }
 }
