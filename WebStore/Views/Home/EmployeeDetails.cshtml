@@ -7,10 +7,16 @@
     <meta name="viewport" content="width=device-width" />
     <title>EmployeeDetails</title>
     <style>
-        th, td {
+        th, td
+        {
             text-align:left;
             padding: 5px
 
+        }
+
+        .Center
+        {
+            text-align:center;
 
         }
     </style>
@@ -29,7 +35,7 @@
         <table>
             <thead>
                 <tr>
-                    <th colspan="2">Сотрудник</th>
+                    <th colspan="2" class="Center">Сотрудник</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,10 +59,25 @@
                     <th>Возраст</th>
                     <td>@Model.Age</td>
                 </tr>
+                <tr>
+                    <th colspan="2" class="Center">Дполнительно</th>
+                </tr>
+                <tr>
+                    <th>Дата рождения</th>
+                    <td>@Model.Birthday.ToShortDateString()</td>
+                </tr>
+                <tr>
+                    <th>Принят на работу</th>
+                    <td>@Model.StartWork.ToShortDateString()</td>
+                </tr>
+                <tr>
+                    <th>Должность</th>
+                    <td>@Model.Position</td>
+                </tr>
             </tbody>
         </table>
         <hr />
-        <li>@Html.ActionLink("Вернуться к списку", "GetEmployees")</li>
+        <p>@Html.ActionLink("Вернуться к списку", "GetEmployees")</p>
     </content>
     <footer>
     </footer>
