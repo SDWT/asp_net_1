@@ -8,10 +8,10 @@
 <body>
     <header>
         <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/home/readconfig">Config</a></li>
+            <li>@Html.ActionLink("Главная", "Index", "Home")</li>
+            <li>@Html.ActionLink("Файл конфигурации", "readconfig", "Home")</li>
             <li><a href="/TestPage.html">TestPage</a></li>
-            <li><a href="/home/getemployees">Employees</a></li>
+            <li>@Html.ActionLink("Сотрудники", "GetAll", "Employee")</li>
         </ul>
     </header>
     <content>
