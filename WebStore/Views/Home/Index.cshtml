@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -20,6 +22,7 @@
         <p>Some test text</p>
         <p>
             <a href="/home/readconfig">Config</a>
+            <a asp-action="ReadConfig">Config</a>
         </p>
     </content>
     <footer>
