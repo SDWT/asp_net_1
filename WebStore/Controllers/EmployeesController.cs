@@ -7,7 +7,7 @@ using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
-    public class EmployeeController : Controller
+    public class EmployeesController : Controller
     {
         public IActionResult Index()
         {
