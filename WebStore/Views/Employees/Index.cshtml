@@ -1,57 +1,29 @@
 ﻿@model IEnumerable<WebStore.ViewModels.EmployeeView>
 
-<!DOCTYPE html>
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Сотрудники";
+}
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>GetEmployees</title>
-</head>
-<body>
-    <header>
-        <ul>
-            <li>@Html.ActionLink("Главная", "Index", "Home")</li>
-            <li>@Html.ActionLink("Файл конфигурации", "readconfig", "Home")</li>
-            <li><a href="/TestPage.html">TestPage</a></li>
-            <li><a asp-route="employees">Сотрудники</a></li>
-        </ul>
-    </header>
-    <content>
-        <h3>@ViewBag.SomeData</h3>
-        <h4>@ViewData["Test"]</h4>
-        <table>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Фамилия</th>
-                    <th>Имя</th>
-                    <th>Отчество</th>
-                    <th>Возраст</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var employee in Model)
-                {
-                    <tr>
-                        <td>@employee.FirstName</td>
-                        <td>@employee.SecondName</td>
-                        <td>@employee.Patronymic</td>
-                        <td>@employee.Age</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        <hr />
-
-        <ul>
-            @foreach (var employee in Model)
-            {
-                <li>@Html.ActionLink(employee.SecondName, "Details", new { id = employee.Id })</li>
-            }
-        </ul>
-    </content>
-    <footer>
-    </footer>
-</body>
-</html>
+<h3>@ViewBag.Title</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Отчество</th>
+            <th>Возраст</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@employee.FirstName</td>
+                <td>@Html.ActionLink(employee.SecondName, "Details", new { id = employee.Id })</td>
+                <td>@employee.Patronymic</td>
+                <td>@employee.Age</td>
+            </tr>
+        }
+    </tbody>
+</table>
