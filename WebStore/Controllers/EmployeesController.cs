@@ -11,7 +11,10 @@ namespace WebStore.Controllers
     {
         public IActionResult Index()
         {
-            return GetAll();
+            ViewBag.SomeData = "Hello World!";
+            ViewData["Test"] = "TestData";
+
+            return View(__Employees);
         }
 
         private static readonly List<EmployeeView> __Employees = new List<EmployeeView>
@@ -23,15 +26,7 @@ namespace WebStore.Controllers
             new EmployeeView {Id = 3, FirstName = "Сидор", SecondName = "Сидоров", Patronymic = "Сидорович", Age = 20,
                 Birthday = new DateTime(2020, 9, 11), StartWork = new DateTime(2040, 9, 11), Position = EmployeePosition.Probation}
         };
-
-        public IActionResult GetAll()
-        {
-            ViewBag.SomeData = "Hello World!";
-            ViewData["Test"] = "TestData";
-
-            return View(__Employees);
-        }
-
+        
         public IActionResult Details(int id)
         {
             EmployeeView result = new EmployeeView

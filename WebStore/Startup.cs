@@ -48,8 +48,8 @@ namespace WebStore
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
                 routes.MapRoute(
-                    name: "employees",
-                    template: "{controller=Employees}/{action=Index}/{id?}");
+                       name: "employees",
+                       template: "Employees/Index");
                 // ? - опционально
                 // ! - обязательно
                 // = по умолчанию
