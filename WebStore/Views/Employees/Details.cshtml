@@ -2,49 +2,45 @@
 
 @{
     Layout = "_Layout";
-    ViewBag.Title = "";
+    ViewBag.Title = $"Сведение о сотруднике id: {Model.Id}";
 }
 
-<table>
+<table class="table">
     <thead>
         <tr>
-            <th colspan="2" class="Center">Сотрудник</th>
+            <th colspan="2" class="Center"><h3>Сотрудник</h3></th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <th>Id</th>
-            <td>@Model.Id</td>
-        </tr>
-        <tr>
-            <th>Фамилия</th>
+            <th>@Html.LabelFor(m => m.SecondName)</th>
             <td>@Model.SecondName</td>
         </tr>
         <tr>
-            <th>Имя</th>
+            <th>@Html.LabelFor(m => m.FirstName)</th>
             <td>@Model.FirstName</td>
         </tr>
         <tr>
-            <th>Отчество</th>
+            <th>@Html.LabelFor(m => m.Patronymic)</th>
             <td>@Model.Patronymic</td>
         </tr>
         <tr>
-            <th>Возраст</th>
+            <th>@Html.LabelFor(m => m.Age)</th>
             <td>@Model.Age</td>
         </tr>
         <tr>
-            <th colspan="2" class="Center">Дполнительно</th>
+            <th colspan="2" class="Center"><h4>Дополнительно</h4></th>
         </tr>
         <tr>
-            <th>Дата рождения</th>
+            <th>@Html.LabelFor(m => m.Birthday)</th>
             <td>@Model.Birthday.ToShortDateString()</td>
         </tr>
         <tr>
-            <th>Принят на работу</th>
+            <th>@Html.LabelFor(m => m.StartWork)</th>
             <td>@Model.StartWork.ToShortDateString()</td>
         </tr>
         <tr>
-            <th>Должность</th>
+            <th>@Html.LabelFor(m => m.Position)</th>
             <td>@Model.Position</td>
         </tr>
     </tbody>

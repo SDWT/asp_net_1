@@ -34,7 +34,6 @@ namespace WebStore
 
             // For all types files
             app.UseStaticFiles(/*new StaticFileOptions { ServeUnknownFileTypes = true}*/);
-            app.UseStaticFiles();
             app.UseDefaultFiles();
 
             //app.Run(async (context) =>

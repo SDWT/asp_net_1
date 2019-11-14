@@ -27,21 +27,43 @@ namespace WebStore.Controllers
                 Birthday = new DateTime(2020, 9, 11), StartWork = new DateTime(2040, 9, 11), Position = EmployeePosition.Probation}
         };
         
-        public IActionResult Details(int id)
+        public IActionResult Details(int? Id)
         {
-            EmployeeView result = new EmployeeView
-            { Id = id };
+            if (Id is null)
+                return BadRequest();
 
-            foreach (var employee in __Employees)
-            {
-                if (employee.Id == id)
-                {
-                    result = employee;
-                    break;
-                }
-            }
+            var employee = __Employees.FirstOrDefault(e => e.Id == Id);
+            if (employee is null)
+                return NotFound();
 
-            return View(result);
+            return View(employee);
+        }
+
+        public IActionResult DetailsName(string FirstName, string SecondName)
+        {
+            if (FirstName is null && SecondName is null)
+                return BadRequest();
+
+            IEnumerable<EmployeeView> employees = __Employees;
+
+            if (!string.IsNullOrWhiteSpace(FirstName))
+                employees = employees.Where(e => e.FirstName == FirstName);
+
+            if (!string.IsNullOrWhiteSpace(SecondName))
+                employees = employees.Where(e => e.SecondName == SecondName);
+            
+            var employee = employees.FirstOrDefault();
+            
+            if (employee is null)
+                return NotFound();
+
+            return View(nameof(Details), employee);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int Id, [FromBody] EmployeeView Employee)
+        {
+            return RedirectToAction(nameof(Index));
         }
     }
 }
