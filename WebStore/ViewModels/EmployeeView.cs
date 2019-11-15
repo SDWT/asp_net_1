@@ -9,12 +9,23 @@ namespace WebStore.ViewModels
 {
     public enum EmployeePosition
     {
+        [Display(Name = "Стажёр")]
         Probation,
+        [Display(Name = "Продавец")]
         Seller,
+        [Display(Name = "Менеджер")]
         Manager,
+        [Display(Name = "Администратор")]
         Adminitrator,
+        [Display(Name = "Директор")]
         Director,
+        [Display(Name = "Работник IT")]
         IT
+    }
+
+    public class EmployeePositionViewModel
+    {
+        public EmployeePosition Position { get; set; }
     }
 
     public class EmployeeView

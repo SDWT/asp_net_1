@@ -41,7 +41,17 @@
         </tr>
         <tr>
             <th>@Html.LabelFor(m => m.Position)</th>
-            <td>@Model.Position</td>
+            <td>@Html.DisplayFor(model => model.Position)</td>
+            @*<td>@Model.Position</td>
+            <td><label asp-for="@Model.Position"></label></td>*@
+        </tr>
+        <tr>
+            <th>
+                <a asp-controller="Employees" asp-action="Edit" asp-route-Id="@Model.Id">Редактировать данные о сотруднике</a>
+            </th>
+            <th>
+                <a asp-controller="Employees" asp-action="Delete" asp-route-Id="@Model.Id">Удалить данные о сотруднике</a>
+            </th>
         </tr>
     </tbody>
 </table>

@@ -60,10 +60,67 @@ namespace WebStore.Controllers
             return View(nameof(Details), employee);
         }
 
-        [HttpPost]
-        public IActionResult Edit(int Id, [FromBody] EmployeeView Employee)
+
+        public IActionResult Create()
         {
-            return RedirectToAction(nameof(Index));
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(EmployeeView Employee)
+        {
+            if (__Employees.Count <= 0)
+                Employee.Id = 1;
+            else
+                Employee.Id = __Employees.Max(e => e.Id) + 1;
+
+            if (ModelState.IsValid)
+            {
+                __Employees.Add(Employee);
+                return View("Details", Employee);
+            }
+            else
+                return View("Create", Employee);
+        }
+
+
+        public IActionResult Edit(int Id)
+        {
+            return View(__Employees.FirstOrDefault(e => e.Id == Id));
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int Id, EmployeeView Employee)
+        {
+            if (ModelState.IsValid)
+            {
+                var pos = __Employees.FindIndex(e => e.Id == Id);
+                if (Id == -1)
+                {
+                    return Create(Employee);
+                }
+                else
+                {
+                    __Employees[pos] = Employee;
+                    return View("Details", Employee);
+                }
+            }
+            else
+                return View(Employee);
+        }
+
+        public IActionResult Delete(int Id)
+        {
+            var pos = __Employees.FindIndex(e => e.Id == Id);
+            if (Id == -1)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                __Employees.RemoveAt(pos);
+                return View("Index", __Employees);
+            }
         }
     }
 }
