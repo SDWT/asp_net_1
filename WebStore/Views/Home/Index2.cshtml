@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <header>
+        <ul>
+            <li>@Html.ActionLink("Главная", "Index", "Home")</li>
+            <li>@Html.ActionLink("Файл конфигурации", "readconfig", "Home")</li>
+            <li><a href="/TestPage.html">TestPage</a></li>
+            @*<li>@Html.ActionLink("Сотрудники", "GetAll", "Employees")</li>*@
+            <li><a asp-route="employees">Сотрудники</a></li>
+
+        </ul>
+    </header>
+    <content>
+        <h3>Home Index page</h3>
+        <hr />
+        <p>Some test text</p>
+        <p>
+            <a href="/home/readconfig">Config</a>
+            <a asp-action="ReadConfig">Config</a>
+        </p>
+    </content>
+    <footer>
+    </footer>
+</body>
+</html>

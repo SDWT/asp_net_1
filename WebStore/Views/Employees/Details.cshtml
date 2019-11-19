@@ -1,0 +1,59 @@
+﻿@model WebStore.ViewModels.EmployeeView
+
+@{
+    Layout = "_Layout";
+    ViewBag.Title = $"Сведение о сотруднике id: {Model.Id}";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th colspan="2" class="Center"><h3>Сотрудник</h3></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>@Html.LabelFor(m => m.SecondName)</th>
+            <td>@Model.SecondName</td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(m => m.FirstName)</th>
+            <td>@Model.FirstName</td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(m => m.Patronymic)</th>
+            <td>@Model.Patronymic</td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(m => m.Age)</th>
+            <td>@Model.Age</td>
+        </tr>
+        <tr>
+            <th colspan="2" class="Center"><h4>Дополнительно</h4></th>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(m => m.Birthday)</th>
+            <td>@Model.Birthday.ToShortDateString()</td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(m => m.StartWork)</th>
+            <td>@Model.StartWork.ToShortDateString()</td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(m => m.Position)</th>
+            <td>@Html.DisplayFor(model => model.Position)</td>
+            @*<td>@Model.Position</td>
+            <td><label asp-for="@Model.Position"></label></td>*@
+        </tr>
+        <tr>
+            <th>
+                <a asp-controller="Employees" asp-action="Edit" asp-route-Id="@Model.Id">Редактировать данные о сотруднике</a>
+            </th>
+            <th>
+                <a asp-controller="Employees" asp-action="Delete" asp-route-Id="@Model.Id">Удалить данные о сотруднике</a>
+            </th>
+        </tr>
+    </tbody>
+</table>
+<hr />
+<p>@Html.ActionLink("Вернуться к списку", "Index")</p>

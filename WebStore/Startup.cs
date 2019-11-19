@@ -29,11 +29,11 @@ namespace WebStore
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
             }
 
             // For all types files
             app.UseStaticFiles(/*new StaticFileOptions { ServeUnknownFileTypes = true}*/);
-            app.UseStaticFiles();
             app.UseDefaultFiles();
 
             //app.Run(async (context) =>
@@ -47,6 +47,9 @@ namespace WebStore
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                       name: "employees",
+                       template: "Employees/Index");
                 // ? - опционально
                 // ! - обязательно
                 // = по умолчанию
