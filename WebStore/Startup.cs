@@ -41,6 +41,17 @@ namespace WebStore
             // For all types files
             app.UseStaticFiles(/*new StaticFileOptions { ServeUnknownFileTypes = true}*/);
             app.UseDefaultFiles();
+            app.UseCookiePolicy();
+
+            #region Middleware - примеры
+
+            //app.UseAuthentication();
+            //app.UseResponseCompression();
+
+            app.UseWelcomePage("/Welcome");
+            #endregion
+            //app.Run(async context => await context.Response.WriteAsync("Hello World!")); // Безусловное выполнение (замыкает конвейер)
+            app.Map("/Hello", application => application.Run(async ctx => await ctx.Response.WriteAsync("World!")));
 
             //app.Run(async (context) =>
             //{
