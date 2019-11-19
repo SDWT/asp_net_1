@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using WebStore.Infrastructure.Conventions;
+
 namespace WebStore
 {
     public class Startup
@@ -21,7 +23,11 @@ namespace WebStore
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc(
+                opt =>
+                {
+                    //opt.Conventions.Add(new CustomControllerConvention());
+                });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
