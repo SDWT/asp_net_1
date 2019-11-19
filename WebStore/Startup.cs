@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using WebStore.Infrastructure.Conventions;
+using WebStore.Infrastructure.Interfaces;
+using WebStore.Infrastructure.Services;
+
 namespace WebStore
 {
     public class Startup
@@ -21,7 +25,13 @@ namespace WebStore
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
+
+            services.AddMvc(
+                opt =>
+                {
+                    //opt.Conventions.Add(new CustomControllerConvention());
+                });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -35,6 +45,17 @@ namespace WebStore
             // For all types files
             app.UseStaticFiles(/*new StaticFileOptions { ServeUnknownFileTypes = true}*/);
             app.UseDefaultFiles();
+            app.UseCookiePolicy();
+
+            #region Middleware - примеры
+
+            //app.UseAuthentication();
+            //app.UseResponseCompression();
+
+            app.UseWelcomePage("/Welcome");
+            #endregion
+            //app.Run(async context => await context.Response.WriteAsync("Hello World!")); // Безусловное выполнение (замыкает конвейер)
+            app.Map("/Hello", application => application.Run(async ctx => await ctx.Response.WriteAsync("World!")));
 
             //app.Run(async (context) =>
             //{
