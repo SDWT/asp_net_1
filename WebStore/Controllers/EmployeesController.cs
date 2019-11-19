@@ -7,8 +7,10 @@ using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
+    //[Route("Users")]
     public class EmployeesController : Controller
     {
+        //[Route("{id}")]
         public IActionResult Index()
         {
             ViewBag.SomeData = "Hello World!";
