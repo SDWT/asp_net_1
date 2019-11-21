@@ -28,7 +28,7 @@ namespace WebStore.ViewModels
         public EmployeePosition Position { get; set; }
     }
 
-    public class EmployeeView
+    public class EmployeeViewModel
     {
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }

@@ -9,21 +9,21 @@ namespace WebStore.Infrastructure.Services
 {
     public class InMemoryEmployeesData : IEmployeesData
     {
-        private readonly List<EmployeeView> _Employees = new List<EmployeeView>
+        private readonly List<EmployeeViewModel> _Employees = new List<EmployeeViewModel>
         {
-            new EmployeeView {Id = 1, FirstName = "Иван", SecondName = "Иванов", Patronymic = "Иванович", Age = 40,
+            new EmployeeViewModel {Id = 1, FirstName = "Иван", SecondName = "Иванов", Patronymic = "Иванович", Age = 40,
                 Birthday = new DateTime(2000, 9, 11), StartWork = new DateTime(2020, 9, 11), Position = EmployeePosition.Manager},
-            new EmployeeView {Id = 2, FirstName = "Петр", SecondName = "Петров", Patronymic = "Петрович", Age = 30,
+            new EmployeeViewModel {Id = 2, FirstName = "Петр", SecondName = "Петров", Patronymic = "Петрович", Age = 30,
                 Birthday = new DateTime(2010, 9, 11), StartWork = new DateTime(2030, 9, 11), Position = EmployeePosition.Seller},
-            new EmployeeView {Id = 3, FirstName = "Сидор", SecondName = "Сидоров", Patronymic = "Сидорович", Age = 20,
+            new EmployeeViewModel {Id = 3, FirstName = "Сидор", SecondName = "Сидоров", Patronymic = "Сидорович", Age = 20,
                 Birthday = new DateTime(2020, 9, 11), StartWork = new DateTime(2040, 9, 11), Position = EmployeePosition.Probation}
         };
 
-        public IEnumerable<EmployeeView> GetAll() => _Employees;
+        public IEnumerable<EmployeeViewModel> GetAll() => _Employees;
 
-        public EmployeeView GetById(int Id) => _Employees.FirstOrDefault(e => e.Id == Id);
+        public EmployeeViewModel GetById(int Id) => _Employees.FirstOrDefault(e => e.Id == Id);
 
-        public void Add(EmployeeView Employee)
+        public void Add(EmployeeViewModel Employee)
         {
             if (Employee is null)
                 throw new ArgumentNullException(nameof(Employee));
@@ -32,7 +32,7 @@ namespace WebStore.Infrastructure.Services
             _Employees.Add(Employee);
         }
 
-        public void Edit(int Id, EmployeeView Employee)
+        public void Edit(int Id, EmployeeViewModel Employee)
         {
             if (Employee is null)
                 throw new ArgumentNullException(nameof(Employee));

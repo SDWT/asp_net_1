@@ -59,10 +59,10 @@ namespace WebStore.Controllers
         }
 
 
-        public IActionResult Create() => View(new EmployeeView());
+        public IActionResult Create() => View(new EmployeeViewModel());
 
         [HttpPost]
-        public IActionResult Create(EmployeeView NewEmployee)
+        public IActionResult Create(EmployeeViewModel NewEmployee)
         {
             if (!ModelState.IsValid)
                 return View(NewEmployee);
@@ -86,7 +86,7 @@ namespace WebStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EmployeeView Employee)
+        public IActionResult Edit(EmployeeViewModel Employee)
         {
             if (Employee is null)
                 throw new ArgumentNullException(nameof(Employee));
