@@ -34,6 +34,7 @@ namespace WebStore.ViewModels
         [Display(Name = "Имя")]
         [Required(ErrorMessage = "Имя является обязательным полем", AllowEmptyStrings = false)]
         [StringLength(maximumLength: 200, MinimumLength = 2, ErrorMessage = "Длина имени должна быть в пределах от 2 до 200 символов")]
+        [RegularExpression(@"(?:[А-ЯЁ][а-яё]+)|(?:[A-Z][a-z]+)", ErrorMessage = "Странное имя")]
         public string FirstName { get; set; }
 
 

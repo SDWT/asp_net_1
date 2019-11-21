@@ -91,8 +91,14 @@ namespace WebStore.Controllers
             if (Employee is null)
                 throw new ArgumentNullException(nameof(Employee));
 
+            if (Employee.Age < 18)
+                ModelState.AddModelError(nameof(Employee.Age), "Возраст не может быть меньше 18 лет");
+
+            if (Employee.FirstName == "123" && Employee.SecondName == "qwe")
+                ModelState.AddModelError("", "Странное сочетание имени и фамилии");
+
             if (!ModelState.IsValid)
-                View(Employee);
+                return View(Employee);
 
             var id = Employee.Id;
             _EmployeesData.Edit(id, Employee);

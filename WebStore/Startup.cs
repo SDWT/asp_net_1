@@ -28,6 +28,8 @@ namespace WebStore
             //services.AddScoped<>(); // Один объект на время обработки одного входящего запроса (на время действия области)
 
 
+            services.AddSession();
+
             services.AddMvc(
                 opt =>
                 {
@@ -47,6 +49,7 @@ namespace WebStore
             app.UseStaticFiles(/*new StaticFileOptions { ServeUnknownFileTypes = true}*/);
             app.UseDefaultFiles();
             app.UseCookiePolicy();
+            app.UseSession();
 
             #region Middleware - примеры
 
