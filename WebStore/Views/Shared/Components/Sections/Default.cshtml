@@ -23,7 +23,7 @@
                             @foreach (var child in parent_section.ChildSections)
                             {
                                 <li>
-                                    <a href="#">@child.Name </a>
+                                    <a asp-route-SectionId="@child.Id">@child.Name </a>
                                 </li>
                             }
                         </ul>
@@ -36,7 +36,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a href="#">
+                        <a asp-route-SectionId="@parent_section.Id">
                             @parent_section.Name
                         </a>
                     </h4>
