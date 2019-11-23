@@ -7,18 +7,42 @@ using Microsoft.Extensions.Configuration;
 using System.IO;
 using System.Text;
 using Microsoft.Net.Http.Headers;
-
-
+using WebStore.Infrastructure.Interfaces;
+using WebStore.ViewModels;
+using WebStore.Domain.Entities;
 
 namespace WebStore.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController() { }
+        private readonly IProductData _ProductData;
 
-        public IActionResult Index()
+        public HomeController(IProductData ProductData) => _ProductData = ProductData;
+
+        public IActionResult Index(int? SectionId, int? BrandId)
         {
-            return View();
+            var products = _ProductData.GetProducts(new ProductFilter
+            {
+                SectionId = SectionId,
+                BrandId = BrandId
+            });
+
+            return View(new HomeIndexViewModel
+            {
+                Catalog = new CatalogViewModel
+                {
+                    SectionId = SectionId,
+                    BrandId = BrandId,
+                    Products = products.Select(p => new ProductViewModel
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Order = p.Order,
+                        ImageUrl = p.ImageUrl,
+                        Price = p.Price
+                    }).OrderBy(p => p.Order)
+                }
+            });
         }
 
         public IActionResult Blog()

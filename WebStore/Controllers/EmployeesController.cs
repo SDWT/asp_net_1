@@ -59,10 +59,10 @@ namespace WebStore.Controllers
         }
 
 
-        public IActionResult Create() => View(new EmployeeView());
+        public IActionResult Create() => View(new EmployeeViewModel());
 
         [HttpPost]
-        public IActionResult Create(EmployeeView NewEmployee)
+        public IActionResult Create(EmployeeViewModel NewEmployee)
         {
             if (!ModelState.IsValid)
                 return View(NewEmployee);
@@ -86,13 +86,19 @@ namespace WebStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EmployeeView Employee)
+        public IActionResult Edit(EmployeeViewModel Employee)
         {
             if (Employee is null)
                 throw new ArgumentNullException(nameof(Employee));
 
+            if (Employee.Age < 18)
+                ModelState.AddModelError(nameof(Employee.Age), "Возраст не может быть меньше 18 лет");
+
+            if (Employee.FirstName == "123" && Employee.SecondName == "qwe")
+                ModelState.AddModelError("", "Странное сочетание имени и фамилии");
+
             if (!ModelState.IsValid)
-                View(Employee);
+                return View(Employee);
 
             var id = Employee.Id;
             _EmployeesData.Edit(id, Employee);
