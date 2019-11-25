@@ -62,11 +62,6 @@ namespace WebStore
             //app.Run(async context => await context.Response.WriteAsync("Hello World!")); // Безусловное выполнение (замыкает конвейер)
             app.Map("/Hello", application => application.Run(async ctx => await ctx.Response.WriteAsync("World!")));
 
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync(Configuration["CustomData"]);
-            //});
-
             //app.UseMvcWithDefaultRoute();
             app.UseMvc(routes =>
             {
