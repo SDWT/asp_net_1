@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using System;
 using WebStore.DAL.Context;
 using WebStore.Data;
+using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.Conventions;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Services;
@@ -30,6 +32,42 @@ namespace WebStore
 
             services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
             services.AddScoped<IProductData, SqlProductData>();
+
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<WebStoreContext>()
+                .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(opt =>
+            {
+                // Упрощения правил пароля для упрощения тестирования
+                opt.Password.RequiredLength = 3;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequiredUniqueChars = 3;
+
+                opt.Lockout.AllowedForNewUsers = true;
+                opt.Lockout.MaxFailedAccessAttempts = 5;
+                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+
+                // Список доступных символов
+                //opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABC123";
+                opt.User.RequireUniqueEmail = false; // Грабли - на этапе отладки при попытке регистрации двух пользователей без email
+            });
+
+            services.ConfigureApplicationCookie(opt =>
+            {
+                opt.Cookie.Name = "WebStore_Identity";
+                opt.Cookie.HttpOnly = true;
+                opt.Cookie.Expiration = TimeSpan.FromDays(100);
+
+                opt.LoginPath = "/Account/Login";
+                opt.LogoutPath = "/Account/Logout";
+                opt.AccessDeniedPath = "/Account/AccessDenied";
+
+                opt.SlidingExpiration = true;
+            });
 
             //services.AddSingleton<TInterface, TImplementation>(); // Единый объект на всё время жизни приложения с момента первого обращения к нему
             //services.AddTransient<>(); // Один объект на каждый запрос экземпляра сервиса
@@ -59,6 +97,7 @@ namespace WebStore
             app.UseStaticFiles(/*new StaticFileOptions { ServeUnknownFileTypes = true}*/);
             app.UseDefaultFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
             app.UseSession();
 
             #region Middleware - примеры
