@@ -43,7 +43,7 @@ namespace WebStore.Controllers
             return View(Model);
         }
 
-        public IActionResult Login(string ReturnUrl = null) => View(new LoginUserViewModel{ ReturnUrl = ReturnUrl });
+        public IActionResult Login(string ReturnUrl = null) => View(new LoginUserViewModel { ReturnUrl = ReturnUrl });
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginUserViewModel Model)
