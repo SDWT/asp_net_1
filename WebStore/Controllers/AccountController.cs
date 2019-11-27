@@ -19,7 +19,7 @@ namespace WebStore.Controllers
 
         public IActionResult Register() => View(new RegisterUserViewModel());
 
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterUserViewModel Model)
         {
             if (!ModelState.IsValid)
@@ -43,14 +43,39 @@ namespace WebStore.Controllers
             return View(Model);
         }
 
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null) => View(new LoginUserViewModel{ ReturnUrl = returnUrl });
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginUserViewModel Model)
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            if (!ModelState.IsValid)
+                return View(Model);
+
+            var login_result = await _SignInManager.PasswordSignInAsync(
+                Model.UserName,
+                Model.Password,
+                Model.RemeberMe,
+                true); // Блокировать, если ошибок доступа больше, чем указано в конфигурации
+
+            if (login_result.Succeeded)
+                if (Url.IsLocalUrl(Model.ReturnUrl))
+                    return Redirect(Model.ReturnUrl);
+                else
+                    return RedirectToAction("Index", "Home");
+
+            ModelState.AddModelError("", "Неверное имя пользователя или пароль");
+            return View(Model);
         }
 
-        public IActionResult Logout()
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+                await _SignInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

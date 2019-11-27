@@ -10,6 +10,10 @@
         <li><a asp-controller="Home" asp-action="CheckOut"><i class="fa fa-crosshairs"></i> Заказы</a></li>
         <li><a asp-controller="Home" asp-action="Cart"><i class="fa fa-shopping-cart"></i> Корзина</a></li>
 
-        <li><a asp-controller="Account" asp-action="Logout"><i class="fa fa-shopping-cart"></i> Выйти</a></li>
+        <li>
+            <form asp-controller="Account" asp-action="Logout" asp-antiforgery="true" method="post">
+                <button type="submit" class="btn btn-warning"><i class="fa fa-sign-out-alt"></i> Выйти</button>
+            </form>
+        </li>
     </ul>
 </div>
