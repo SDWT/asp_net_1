@@ -10,30 +10,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-4 col-sm-offset-4">
-                <div class="signup-form">
-                    <!--sign up form-->
-                    <h2>Зарегисруйтесь!</h2>
-                    <form asp-controller="Account" asp-action="Register" asp-antiforgery="true">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                        <div class="form-group">
-                            <input asp-for="UserName" />
-                            <span asp-validation-for="UserName" class="text-danger"></span>
-                        </div>
-                        
-                        <div class="form-group">
-                            <input asp-for="Password" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                        
-                        <div class="form-group">
-                            <input asp-for="ConfirmPassword" />
-                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                        </div>
-
-                        <button type="submit" class="btn btn-default">Зарегистрировать</button>
-                    </form>
-                </div><!--/sign up form-->
+                <partial name="Partial/_Register" model="@Model" />
             </div>
         </div>
     </div>

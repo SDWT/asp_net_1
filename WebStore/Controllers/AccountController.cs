@@ -99,5 +99,16 @@ namespace WebStore.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult Index(string ReturnUrl = null)
+        {
+            return View(new AccountMainViewModel 
+            {
+                Login = new LoginUserViewModel { ReturnUrl = ReturnUrl },
+                Register = new RegisterUserViewModel()
+
+            });
+        }
+
     }
 }
