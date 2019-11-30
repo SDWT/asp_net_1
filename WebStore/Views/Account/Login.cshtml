@@ -1,0 +1,17 @@
+﻿@model LoginUserViewModel
+
+@{
+    Layout = "_LayoutBase";
+    ViewData["Title"] = "Вход в аккаунт";
+}
+
+<section id="form">
+    <!--form-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+                <partial name="Partial/_Login" model="@Model" />
+            </div>
+        </div>
+    </div>
+</section><!--/form-->

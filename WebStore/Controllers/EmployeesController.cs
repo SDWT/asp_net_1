@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using WebStore.Infrastructure.Interfaces;
@@ -10,6 +9,7 @@ using WebStore.ViewModels;
 namespace WebStore.Controllers
 {
     //[Route("Users")]
+    [Authorize]
     public class EmployeesController : Controller
     {
         private readonly IEmployeesData _EmployeesData;
