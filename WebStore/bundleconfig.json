@@ -11,9 +11,8 @@
   {
     "outputFileName": "wwwroot/js/site.js",
     "inputFiles": [
-      "wwwroot/js/main.js",
       "wwwroot/js/price-range.js",
-      "wwwroot/js/gmaps.js"
+      "wwwroot/js/main.js"
     ],
     "minify": {
       "enabled": true,
