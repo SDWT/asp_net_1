@@ -1,17 +1,28 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.DAL.Context;
+using WebStore.Domain.Entities.Identity;
 
 namespace WebStore.Data
 {
     public class WebStoreContextInitializer
     {
         private readonly WebStoreContext _db;
+        private readonly UserManager<User> _UserManager;
+        private readonly RoleManager<Role> _RoleManager;
 
-        public WebStoreContextInitializer(WebStoreContext db) => _db = db;
+
+        public WebStoreContextInitializer(WebStoreContext db, UserManager<User> UserManager, RoleManager<Role> RoleManager)
+        {
+             _db = db;
+            _UserManager = UserManager;
+            _RoleManager= RoleManager;
+
+        }
 
         public async Task InitializeAsync()
         {
@@ -28,9 +39,14 @@ namespace WebStore.Data
             // Автомотическое создание бд и применение миграций до последней версии
             await db.MigrateAsync();
 
+            await IdentityInitializeAsync();
+
             // Отказ от дальнейшей инициализации по признаку заполненности продуктов
             if (await _db.Products.AnyAsync()) return;
 
+            #region Add Sections, Brands, Products to data base
+
+            // Add Sections to data base
             using (var transaction = await db.BeginTransactionAsync())
             {
                 await _db.Sections.AddRangeAsync(TestData.Sections);
@@ -42,6 +58,7 @@ namespace WebStore.Data
                 transaction.Commit(); // Отправка транзакции в бд
             }
 
+            // Add Brands to data base
             using (var transaction = await db.BeginTransactionAsync())
             {
                 await _db.Brands.AddRangeAsync(TestData.Brands);
@@ -53,7 +70,8 @@ namespace WebStore.Data
 
                 transaction.Commit();
             }
-
+            
+            // Add Products to data base
             using (var transaction = await db.BeginTransactionAsync())
             {
                 await _db.Products.AddRangeAsync(TestData.Products);
@@ -65,6 +83,38 @@ namespace WebStore.Data
 
                 transaction.Commit();
             }
+            #endregion
+
+        }
+
+        private async Task CheckRole(string RoleName)
+        {
+            if (!await _RoleManager.RoleExistsAsync(RoleName))
+                await _RoleManager.CreateAsync(new Role { Name = RoleName });
+        }
+
+        private async Task IdentityInitializeAsync()
+        {
+            await CheckRole(Role.Administrator);
+            await CheckRole(Role.User);
+
+            if (await _UserManager.FindByNameAsync(User.Administrator) is null)
+            {
+                var admin = new User
+                {
+                    UserName = User.Administrator,
+                    Email = "admin@server.com"
+                };
+                var create_result = await _UserManager.CreateAsync(admin, User.AdminPasswordDefault);
+
+                if (create_result.Succeeded)
+                    await _UserManager.AddToRoleAsync(admin, Role.Administrator);
+                else
+                    throw new InvalidOperationException(string.Format("Ошибка при создании админисратора в БД {0}", 
+                        string.Join(", ", create_result.Errors.Select(e => e.Description))));
+
+            }
+
         }
     }
 }
