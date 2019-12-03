@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-4 col-sm-offset-1">
-                <partial name="Partial/_Login" model="@Model.Login"/>
+                <partial name="Partial/_Login" model="@Model.Login" />
             </div>
             <div class="col-sm-1">
                 <h2 class="or">OR</h2>
@@ -20,3 +20,8 @@
         </div>
     </div>
 </section><!--/form-->
+
+@section Scripts
+{
+    <partial name="Partial/_ValidationScriptsPartial" />
+}
