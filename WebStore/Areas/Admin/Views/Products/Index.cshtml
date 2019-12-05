@@ -1,0 +1,77 @@
+﻿@model IEnumerable<WebStore.Domain.Entities.Product>
+
+@{
+    Layout = "_LayoutProducts";
+    ViewData["Title"] = "Index";
+}
+
+<div class="row pad-botm">
+    <div class="col-md-12">
+        <h4 class="header-line">Список товаров</h4>
+    </div>
+</div>
+<div class="row " style="padding-bottom:40px;">
+    <div class="col-md-1">
+        <a asp-action="Create" class="btn btn-success">Добавить</a>
+    </div>
+</div>
+<div class="row " style="padding-bottom:40px;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ImageUrl)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Section)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Brand)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.Order)
+                    </th>*@
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        <img src="~/images/shop/@item.ImageUrl" height="60" alt="@item.Name" />
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Section.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Brand.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.Order)
+                        </td>*@
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="text-warning"><i class="fa fa-edit fa-2x"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger"><i class="fa fa-times fa-2x"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

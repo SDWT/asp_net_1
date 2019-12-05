@@ -10,13 +10,15 @@
     </div>
 </section>
 <div id="side-menu">
-
     <ul>
         <li style="border-bottom:0px;">
-            <a title="close" href="#"><i class="fa fa-close fa-2x menu-close-icon b-clr"></i></a>
+            <a title="Закрыть" href="#"><i class="fa fa-times fa-2x menu-close-icon b-clr"></i></a>
         </li>
         <li>
             <a title="Dashboard" asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-home fa-2x"></i></a>
+        </li>
+        <li>
+            <a title="Товары" asp-area="Admin" asp-controller="Products" asp-action="Index"><i class="fa fa-boxes fa-2x"></i></a>
         </li>
         <li>
             <a title="UI Elements" href="ui.html"><i class="fa fa-plug fa-2x"></i></a>
@@ -27,7 +29,8 @@
         <li>
             <a title="Blank Page" href="blank.html"><i class="fa fa-volume-off fa-2x"></i></a>
         </li>
-
+        <li>
+            <button title="Выход" asp-area="" asp-controller="Account" asp-action="Logout" class="btn btn-danger"><i class="fa fa-sign-out-alt fa-2x"></i></button>
+        </li>
     </ul>
-
 </div>
