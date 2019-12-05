@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using WebStore.Domain.Entities;
 
 namespace WebStore.Infrastructure.Interfaces
@@ -13,5 +10,7 @@ namespace WebStore.Infrastructure.Interfaces
         IEnumerable<Brand> GetBrands();
 
         IEnumerable<Product> GetProducts(ProductFilter Filter = null);
+
+        Product GetProductById(int id);
     }
 }

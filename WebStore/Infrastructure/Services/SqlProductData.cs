@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities;
 using WebStore.Infrastructure.Interfaces;
@@ -36,6 +34,11 @@ namespace WebStore.Infrastructure.Services
             // query.ToArray();
             return query.AsEnumerable();
         }
+
+        public Product GetProductById(int id) => _db.Products
+           .Include(p => p.Brand)
+           .Include(p => p.Section)
+           .FirstOrDefault(p => p.Id == id);
 
     }
 }
