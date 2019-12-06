@@ -30,7 +30,9 @@
             <a title="Blank Page" href="blank.html"><i class="fa fa-volume-off fa-2x"></i></a>
         </li>
         <li>
-            <button title="Выход" asp-area="" asp-controller="Account" asp-action="Logout" class="btn btn-danger"><i class="fa fa-sign-out-alt fa-2x"></i></button>
+            <form asp-area="" asp-controller="Account" asp-action="Logout" asp-antiforgery="true" method="post">
+                <button type="submit" title="Выход" class="btn btn-danger"><i class="fa fa-sign-out-alt fa-2x"></i></button>
+            </form>
         </li>
     </ul>
 </div>
