@@ -1,0 +1,38 @@
+﻿
+<section class="sec-menu">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <span class="menu-open-icon"><i class="fa fa-bars pull-left fa-2x b-clr"></i></span>
+                <i class="pull-right"> Wecome To The Admin Module </i>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="side-menu">
+    <ul>
+        <li style="border-bottom:0px;">
+            <a title="Закрыть" href="#"><i class="fa fa-times fa-2x menu-close-icon b-clr"></i></a>
+        </li>
+        <li>
+            <a title="Dashboard" asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-home fa-2x"></i></a>
+        </li>
+        <li>
+            <a title="Товары" asp-area="Admin" asp-controller="Products" asp-action="Index"><i class="fa fa-boxes fa-2x"></i></a>
+        </li>
+        <li>
+            <a title="UI Elements" href="ui.html"><i class="fa fa-plug fa-2x"></i></a>
+        </li>
+        <li>
+            <a title="Forms" href="forms.html"><i class="fa fa-rocket fa-2x"></i></a>
+        </li>
+        <li>
+            <a title="Blank Page" href="blank.html"><i class="fa fa-volume-off fa-2x"></i></a>
+        </li>
+        <li>
+            <form asp-area="" asp-controller="Account" asp-action="Logout" asp-antiforgery="true" method="post">
+                <button type="submit" title="Выход" class="btn btn-danger"><i class="fa fa-sign-out-alt fa-2x"></i></button>
+            </form>
+        </li>
+    </ul>
+</div>

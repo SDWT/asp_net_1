@@ -4,6 +4,7 @@ using System.Linq;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities;
 using WebStore.Infrastructure.Interfaces;
+using System.Threading.Tasks;
 
 namespace WebStore.Infrastructure.Services
 {
@@ -40,5 +41,22 @@ namespace WebStore.Infrastructure.Services
            .Include(p => p.Section)
            .FirstOrDefault(p => p.Id == id);
 
+        public async Task AddProduct(Product product)
+        {
+            _db.Add(product);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task UpdateProduct(int id, Product product)
+        {
+            _db.Update(product);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task RemoveProduct(int id, Product product)
+        {
+            _db.Products.Remove(product);
+            await _db.SaveChangesAsync();
+        }
     }
 }

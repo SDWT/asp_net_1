@@ -1,14 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebStore.Infrastructure.Interfaces;
+using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private readonly ICartService _CartService;
         public CartController(ICartService CartService) => _CartService = CartService;
 
-        public IActionResult Details() => View(_CartService.TransformFromCart());
+        public IActionResult Details() => View(new CartDetailsViewModel
+        {
+            CartViewModel = _CartService.TransformFromCart(),
+            OrderViewModel = new OrderViewModel()
+        });
 
         public IActionResult AddToCart(int id)
         {
@@ -32,6 +39,29 @@ namespace WebStore.Controllers
         {
             _CartService.RemoveAll();
             return RedirectToAction("Details");
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult CheckOut(OrderViewModel Model, [FromServices] IOrderService OrderService)
+        {
+            if (!ModelState.IsValid)
+                return View("Details", new CartDetailsViewModel
+                {
+                    CartViewModel = _CartService.TransformFromCart(),
+                    OrderViewModel = new OrderViewModel()
+                });
+
+            var order = OrderService.CreateOrder(Model, _CartService.TransformFromCart(), User.Identity.Name);
+
+            _CartService.RemoveAll();
+
+            return RedirectToAction("OrderConfirmed", new { id = order.Id });
+        }
+
+        public IActionResult OrderConfirmed(int id)
+        {
+            ViewBag.OrderId = id;
+            return View();
         }
     }
 }
