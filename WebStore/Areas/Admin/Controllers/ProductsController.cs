@@ -7,42 +7,37 @@ using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Identity;
+using WebStore.Infrastructure.Interfaces;
 
 namespace WebStore.Areas.Admin.Controllers
 {
     [Area("Admin"), Authorize(Roles = Role.Administrator)]
     public class ProductsController : Controller
     {
-        private readonly WebStoreContext _context;
+        //private readonly WebStoreContext _context;
+        private readonly IProductData _ProductData;
 
-        public ProductsController(WebStoreContext context)
+        public ProductsController(WebStoreContext context, IProductData ProductData)
         {
-            _context = context;
+            _ProductData = ProductData;
         }
 
         // GET: Admin/Products
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var webStoreContext = _context.Products.Include(p => p.Brand).Include(p => p.Section);
-            return View(await webStoreContext.ToListAsync());
+            return View(_ProductData.GetProducts());
         }
 
         // GET: Admin/Products/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
-            if (id == null)
-            {
+            if (id is null)
                 return NotFound();
-            }
 
-            var product = await _context.Products
-                .Include(p => p.Brand)
-                .Include(p => p.Section)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
+            var product = _ProductData.GetProductById((int)id);
+
+            if (product is null)
                 return NotFound();
-            }
 
             return View(product);
         }
@@ -50,8 +45,8 @@ namespace WebStore.Areas.Admin.Controllers
         // GET: Admin/Products/Create
         public IActionResult Create()
         {
-            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Name");
-            ViewData["SectionId"] = new SelectList(_context.Sections, "Id", "Name");
+            ViewData["BrandId"] = new SelectList(_ProductData.GetBrands(), "Id", "Name");
+            ViewData["SectionId"] = new SelectList(_ProductData.GetSections(), "Id", "Name");
             return View();
         }
 
@@ -64,30 +59,29 @@ namespace WebStore.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
+                await _ProductData.AddProduct(product);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Name", product.BrandId);
-            ViewData["SectionId"] = new SelectList(_context.Sections, "Id", "Name", product.SectionId);
+            ViewData["BrandId"] = new SelectList(_ProductData.GetBrands(), "Id", "Name", product.BrandId);
+            ViewData["SectionId"] = new SelectList(_ProductData.GetSections(), "Id", "Name", product.SectionId);
             return View(product);
         }
 
         // GET: Admin/Products/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
-            if (id == null)
+            if (id is null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            var product = _ProductData.GetProductById((int)id);
+            if (product is null)
             {
                 return NotFound();
             }
-            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Name", product.BrandId);
-            ViewData["SectionId"] = new SelectList(_context.Sections, "Id", "Name", product.SectionId);
+            ViewData["BrandId"] = new SelectList(_ProductData.GetBrands(), "Id", "Name", product.BrandId);
+            ViewData["SectionId"] = new SelectList(_ProductData.GetSections(), "Id", "Name", product.SectionId);
             return View(product);
         }
 
@@ -107,8 +101,7 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    await _ProductData.UpdateProduct(id, product);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -123,24 +116,21 @@ namespace WebStore.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Name", product.BrandId);
-            ViewData["SectionId"] = new SelectList(_context.Sections, "Id", "Name", product.SectionId);
+            ViewData["BrandId"] = new SelectList(_ProductData.GetBrands(), "Id", "Name", product.BrandId);
+            ViewData["SectionId"] = new SelectList(_ProductData.GetSections(), "Id", "Name", product.SectionId);
             return View(product);
         }
 
         // GET: Admin/Products/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
-            if (id == null)
+            if (id is null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include(p => p.Brand)
-                .Include(p => p.Section)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            var product = _ProductData.GetProductById((int)id);
+            if (product is null)
             {
                 return NotFound();
             }
@@ -153,15 +143,17 @@ namespace WebStore.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            var product = _ProductData.GetProductById(id);
+            await _ProductData.RemoveProduct(id, product);
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            var product = _ProductData.GetProductById((int)id);
+            if (product is null)
+                return false;
+            return true;
         }
     }
 }
