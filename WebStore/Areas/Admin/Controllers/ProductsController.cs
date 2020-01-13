@@ -14,10 +14,9 @@ namespace WebStore.Areas.Admin.Controllers
     [Area("Admin"), Authorize(Roles = Role.Administrator)]
     public class ProductsController : Controller
     {
-        //private readonly WebStoreContext _context;
         private readonly IProductData _ProductData;
 
-        public ProductsController(WebStoreContext context, IProductData ProductData)
+        public ProductsController(IProductData ProductData)
         {
             _ProductData = ProductData;
         }
