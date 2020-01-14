@@ -15,7 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.DAL", "Services\We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Domain", "Common\WebStore.Domain\WebStore.Domain.csproj", "{B248601C-9526-4127-9F29-7C5B7D3B09BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.ServiceHosting", "Services\WebStore.ServiceHosting\WebStore.ServiceHosting.csproj", "{861355C2-4D1A-4287-B942-94ACACED0B92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.ServiceHosting", "Services\WebStore.ServiceHosting\WebStore.ServiceHosting.csproj", "{861355C2-4D1A-4287-B942-94ACACED0B92}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Interfaces", "Services\WebStore.Interfaces\WebStore.Interfaces.csproj", "{2A26E8FD-29A3-431F-AEF4-E6720A150170}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Services", "Services\WebStore.Services\WebStore.Services.csproj", "{058E290C-6A99-47FF-930B-9824DA916846}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{861355C2-4D1A-4287-B942-94ACACED0B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{861355C2-4D1A-4287-B942-94ACACED0B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{861355C2-4D1A-4287-B942-94ACACED0B92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A26E8FD-29A3-431F-AEF4-E6720A150170}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A26E8FD-29A3-431F-AEF4-E6720A150170}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A26E8FD-29A3-431F-AEF4-E6720A150170}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A26E8FD-29A3-431F-AEF4-E6720A150170}.Release|Any CPU.Build.0 = Release|Any CPU
+		{058E290C-6A99-47FF-930B-9824DA916846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{058E290C-6A99-47FF-930B-9824DA916846}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{058E290C-6A99-47FF-930B-9824DA916846}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{058E290C-6A99-47FF-930B-9824DA916846}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +60,8 @@ Global
 		{572898E1-5544-4A7F-8226-165DD72A6B6F} = {BC5378AB-660A-4A80-9798-8D5A0648CBC6}
 		{B248601C-9526-4127-9F29-7C5B7D3B09BC} = {E2BF3E2C-015A-4FD0-8214-7B36E6135E89}
 		{861355C2-4D1A-4287-B942-94ACACED0B92} = {BC5378AB-660A-4A80-9798-8D5A0648CBC6}
+		{2A26E8FD-29A3-431F-AEF4-E6720A150170} = {BC5378AB-660A-4A80-9798-8D5A0648CBC6}
+		{058E290C-6A99-47FF-930B-9824DA916846} = {BC5378AB-660A-4A80-9798-8D5A0648CBC6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A581600D-6A83-4E59-98A7-778BE0E045C1}
