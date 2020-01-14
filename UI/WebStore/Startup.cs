@@ -13,6 +13,8 @@ using WebStore.Infrastructure.Conventions;
 using WebStore.Interfaces.Services;
 using WebStore.Services.Product;
 using WebStore.Services.Product;
+using WebStore.Interfaces.Api;
+using WebStore.Clients.Values;
 
 namespace WebStore
 {
@@ -35,6 +37,8 @@ namespace WebStore
             services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<ICartService, CookieCartService>();
             services.AddScoped<IOrderService, SqlOrderService>();
+
+            services.AddTransient<IValuesService, ValuesClient>();
 
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<WebStoreContext>()
