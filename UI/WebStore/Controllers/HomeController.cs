@@ -7,8 +7,8 @@ using Microsoft.Extensions.Configuration;
 using System.IO;
 using System.Text;
 using Microsoft.Net.Http.Headers;
-using WebStore.Infrastructure.Interfaces;
-using WebStore.ViewModels;
+using WebStore.Interfaces.Services;
+using WebStore.Domain.ViewModels;
 using WebStore.Domain.Entities;
 
 namespace WebStore.Controllers

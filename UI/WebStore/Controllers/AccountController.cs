@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Domain.Entities.Identity;
-using WebStore.ViewModels.Identity;
+using WebStore.Domain.ViewModels.Identity;
 
 namespace WebStore.Controllers
 {
