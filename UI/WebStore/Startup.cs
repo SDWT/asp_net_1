@@ -12,7 +12,6 @@ using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.Conventions;
 using WebStore.Interfaces.Services;
 using WebStore.Services.Product;
-using WebStore.Services.Product;
 using WebStore.Interfaces.Api;
 using WebStore.Clients.Values;
 

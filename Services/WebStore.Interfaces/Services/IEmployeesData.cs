@@ -6,7 +6,7 @@ using WebStore.Domain.ViewModels;
 
 namespace WebStore.Interfaces.Services
 {
-    /// <summary>Сервис сотрдников</summary>
+    /// <summary>Сервис сотрудников</summary>
     public interface IEmployeesData
     {
         /// <summary>Получить всех сотрудников</summary>
