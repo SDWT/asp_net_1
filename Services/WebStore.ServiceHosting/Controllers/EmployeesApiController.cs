@@ -43,9 +43,9 @@ namespace WebStore.ServiceHosting.Controllers
         }
 
         [HttpPut("{Id}"), ActionName("Put")]
-        public void Edit(int Id, EmployeeViewModel Employee)
+        public EmployeeViewModel Edit(int Id, EmployeeViewModel Employee)
         {
-            _EmployeesData.Edit(Id, Employee);
+            return _EmployeesData.Edit(Id, Employee);
         }
 
         [NonAction]

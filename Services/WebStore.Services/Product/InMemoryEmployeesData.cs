@@ -32,13 +32,13 @@ namespace WebStore.Services.Product
             _Employees.Add(Employee);
         }
 
-        public void Edit(int Id, EmployeeViewModel Employee)
+        public EmployeeViewModel Edit(int Id, EmployeeViewModel Employee)
         {
             if (Employee is null)
                 throw new ArgumentNullException(nameof(Employee));
 
             var db_employee = GetById(Id);
-            if (db_employee is null) return;
+            if (db_employee is null) return null;
 
             db_employee.FirstName = Employee.FirstName;
             db_employee.SecondName = Employee.SecondName;
@@ -48,6 +48,7 @@ namespace WebStore.Services.Product
             db_employee.Position = Employee.Position;
             db_employee.StartWork = Employee.StartWork;
 
+            return db_employee;
         }
 
         public bool Delete(int Id)

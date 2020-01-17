@@ -72,7 +72,7 @@ namespace WebStore.Controllers
             _EmployeesData.Add(NewEmployee);
             _EmployeesData.SaveChanges();
 
-            return RedirectToAction("Details", new { NewEmployee.Id });
+            return RedirectToAction("Index");
         }
 
         [Authorize(Roles = Role.Administrator)]
