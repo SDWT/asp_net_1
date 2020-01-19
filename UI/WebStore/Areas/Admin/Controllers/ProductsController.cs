@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using WebStore.Domain.DTO.Products;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
@@ -52,15 +53,15 @@ namespace WebStore.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Order,SectionId,BrandId,ImageUrl,Price,Name,Id")] Product product)
+        public async Task<IActionResult> Create(ProductDTO product)
         {
             if (ModelState.IsValid)
             {
                 await _ProductData.AddProduct(product);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_ProductData.GetBrands(), "Id", "Name", product.BrandId);
-            ViewData["SectionId"] = new SelectList(_ProductData.GetSections(), "Id", "Name", product.SectionId);
+            ViewData["BrandId"] = new SelectList(_ProductData.GetBrands(), "Id", "Name", product.Brand.Id);
+            ViewData["SectionId"] = new SelectList(_ProductData.GetSections(), "Id", "Name", product.Section.Id);
             return View(product);
         }
 
@@ -77,8 +78,8 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["BrandId"] = new SelectList(_ProductData.GetBrands(), "Id", "Name", product.BrandId);
-            ViewData["SectionId"] = new SelectList(_ProductData.GetSections(), "Id", "Name", product.SectionId);
+            ViewData["BrandId"] = new SelectList(_ProductData.GetBrands(), "Id", "Name", product.Brand.Id);
+            ViewData["SectionId"] = new SelectList(_ProductData.GetSections(), "Id", "Name", product.Section.Id);
             return View(product);
         }
 
@@ -87,7 +88,7 @@ namespace WebStore.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Order,SectionId,BrandId,ImageUrl,Price,Name,Id")] Product product)
+        public async Task<IActionResult> Edit(int id, ProductDTO product)
         {
             if (id != product.Id)
             {
@@ -113,8 +114,8 @@ namespace WebStore.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_ProductData.GetBrands(), "Id", "Name", product.BrandId);
-            ViewData["SectionId"] = new SelectList(_ProductData.GetSections(), "Id", "Name", product.SectionId);
+            ViewData["BrandId"] = new SelectList(_ProductData.GetBrands(), "Id", "Name", product.Brand.Id);
+            ViewData["SectionId"] = new SelectList(_ProductData.GetSections(), "Id", "Name", product.Section.Id);
             return View(product);
         }
 
@@ -140,8 +141,7 @@ namespace WebStore.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = _ProductData.GetProductById(id);
-            await _ProductData.RemoveProduct(id, product);
+            await _ProductData.RemoveProduct(id);
             return RedirectToAction(nameof(Index));
         }
 
