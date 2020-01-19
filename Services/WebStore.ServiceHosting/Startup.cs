@@ -10,8 +10,8 @@ using WebStore.Services.DataBase;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
 using WebStore.Services.Product;
-using WebStore.Interfaces.Api;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebStore.ServiceHosting
 {
@@ -30,6 +30,10 @@ namespace WebStore.ServiceHosting
             services.AddDbContext<WebStoreContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<WebStoreContextInitializer>();
+
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<WebStoreContext>()
+                .AddDefaultTokenProviders();
 
             services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
             services.AddScoped<IProductData, SqlProductData>();
