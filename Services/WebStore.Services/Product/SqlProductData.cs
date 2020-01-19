@@ -5,6 +5,8 @@ using WebStore.DAL.Context;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Services;
 using System.Threading.Tasks;
+using WebStore.Domain.DTO.Products;
+using ConvertDTO.Products;
 
 namespace WebStore.Services.Product
 {
@@ -22,7 +24,7 @@ namespace WebStore.Services.Product
             .Include(section => section.Products)
             .AsEnumerable();
 
-        public IEnumerable<Domain.Entities.Product> GetProducts(ProductFilter Filter = null)
+        public IEnumerable<ProductDTO> GetProducts(ProductFilter Filter = null)
         {
             IQueryable<Domain.Entities.Product> query = _db.Products;
 
@@ -31,15 +33,17 @@ namespace WebStore.Services.Product
 
             if (Filter?.SectionId != null)
                 query = query.Where(product => product.SectionId == Filter.SectionId);
-
+            
+            
             // query.ToArray();
-            return query.AsEnumerable();
+            return query.Select(p => p.ConvertToDTO()).AsEnumerable(); // Мне было лень
         }
 
-        public Domain.Entities.Product GetProductById(int id) => _db.Products
-           .Include(p => p.Brand)
-           .Include(p => p.Section)
-           .FirstOrDefault(p => p.Id == id);
+        public ProductDTO GetProductById(int id) => _db.Products
+            .Include(p => p.Brand)
+            .Include(p => p.Section)
+            .FirstOrDefault(p => p.Id == id)
+            .ConvertToDTO();
 
         public async Task AddProduct(Domain.Entities.Product product)
         {
@@ -53,10 +57,13 @@ namespace WebStore.Services.Product
             await _db.SaveChangesAsync();
         }
 
-        public async Task RemoveProduct(int id, Domain.Entities.Product product)
+        public async Task RemoveProduct(int id)
         {
+            var product = _db.Products.FirstOrDefault(p => p.Id == id);
             _db.Products.Remove(product);
             await _db.SaveChangesAsync();
         }
     }
+
+    
 }

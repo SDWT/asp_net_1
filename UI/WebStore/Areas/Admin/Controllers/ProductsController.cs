@@ -77,8 +77,8 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["BrandId"] = new SelectList(_ProductData.GetBrands(), "Id", "Name", product.BrandId);
-            ViewData["SectionId"] = new SelectList(_ProductData.GetSections(), "Id", "Name", product.SectionId);
+            ViewData["BrandId"] = new SelectList(_ProductData.GetBrands(), "Id", "Name", product.Brand.Id);
+            ViewData["SectionId"] = new SelectList(_ProductData.GetSections(), "Id", "Name", product.Section.Id);
             return View(product);
         }
 
@@ -140,8 +140,7 @@ namespace WebStore.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = _ProductData.GetProductById(id);
-            await _ProductData.RemoveProduct(id, product);
+            await _ProductData.RemoveProduct(id);
             return RedirectToAction(nameof(Index));
         }
 
