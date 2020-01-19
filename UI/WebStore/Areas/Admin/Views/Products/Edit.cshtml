@@ -50,6 +50,8 @@
                         <span asp-validation-for="Order" class="text-danger"></span>
                     </div>
                     <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Brand.Name" />
+                    <input type="hidden" asp-for="Section.Name" />
                     <div class="form-group">
                         <input type="submit" value="Save" class="btn btn-success" />
                     </div>

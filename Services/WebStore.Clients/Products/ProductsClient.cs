@@ -9,7 +9,7 @@ using WebStore.Interfaces.Services;
 
 namespace WebStore.Clients.Products
 {
-    class ProductsClient : BaseClient, IProductData
+    public class ProductsClient : BaseClient, IProductData
     {
         public ProductsClient(IConfiguration config) : base(config, "api/Products") { }
 
@@ -19,17 +19,17 @@ namespace WebStore.Clients.Products
 
         public ProductDTO GetProductById(int id) => Get<ProductDTO>($"{_ServiceAddress}/{id}");
 
-        public IEnumerable<ProductDTO> GetProducts(ProductFilter Filter = null) => 
-            Post(_ServiceAddress, Filter)
+        public IEnumerable<ProductDTO> GetProducts(ProductFilter Filter = null) =>
+            Post(_ServiceAddress, Filter is null ? new ProductFilter() : Filter)
             .Content
             .ReadAsAsync<List<ProductDTO>>()
             .Result;
 
 
-        public async Task AddProduct(Product product) => await PutAsync(_ServiceAddress, product);
+        public async Task AddProduct(ProductDTO product) => await PutAsync(_ServiceAddress, product);
 
         public async Task RemoveProduct(int id) => await DeleteAsync($"{_ServiceAddress}/{id}");
 
-        public async Task UpdateProduct(int id, Product product) => await PutAsync($"{_ServiceAddress}/{id}", product);
+        public async Task UpdateProduct(int id, ProductDTO product) => await PutAsync($"{_ServiceAddress}/{id}", product);
     }
 }

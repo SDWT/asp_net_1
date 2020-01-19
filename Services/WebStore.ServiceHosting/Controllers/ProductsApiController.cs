@@ -40,7 +40,7 @@ namespace WebStore.ServiceHosting.Controllers
         }
 
         [HttpPut, ActionName("Put")]
-        public Task AddProduct(Product product)
+        public Task AddProduct(ProductDTO product)
         {
             return _ProductData.AddProduct(product);
         }
@@ -52,7 +52,7 @@ namespace WebStore.ServiceHosting.Controllers
         }
 
         [HttpPut("{id}"), ActionName("Put")]
-        public Task UpdateProduct(int id, Product product)
+        public Task UpdateProduct(int id, [FromBody] ProductDTO product)
         {
             return _ProductData.UpdateProduct(id, product);
         }

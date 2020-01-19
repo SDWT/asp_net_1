@@ -15,9 +15,9 @@ namespace WebStore.Interfaces.Services
 
         ProductDTO GetProductById(int id);
 
-        Task AddProduct(Product product);
+        Task AddProduct(ProductDTO product);
 
-        Task UpdateProduct(int id, Product product);
+        Task UpdateProduct(int id, ProductDTO product);
 
         Task RemoveProduct(int id);
     }

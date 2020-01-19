@@ -45,15 +45,35 @@ namespace WebStore.Services.Product
             .FirstOrDefault(p => p.Id == id)
             .ConvertToDTO();
 
-        public async Task AddProduct(Domain.Entities.Product product)
+        public async Task AddProduct(ProductDTO product)
         {
-            _db.Add(product);
+            var p = new Domain.Entities.Product
+            {
+                Id = product.Id,
+                Name = product.Name,
+                ImageUrl = product.ImageUrl,
+                Order = product.Order,
+                Price = product.Price,
+                Brand = _db.Brands.FirstOrDefault(b => b.Id == product.Brand.Id),
+                Section = _db.Sections.FirstOrDefault(s => s.Id == product.Section.Id),
+            };
+            _db.Add(p);
             await _db.SaveChangesAsync();
         }
 
-        public async Task UpdateProduct(int id, Domain.Entities.Product product)
+        public async Task UpdateProduct(int id, ProductDTO product)
         {
-            _db.Update(product);
+            var p = new Domain.Entities.Product
+            {
+                Id = product.Id,
+                Name = product.Name,
+                ImageUrl = product.ImageUrl,
+                Order = product.Order,
+                Price = product.Price,
+                Brand = _db.Brands.FirstOrDefault(b => b.Id == product.Brand.Id),
+                Section = _db.Sections.FirstOrDefault(s => s.Id == product.Section.Id),
+            };
+            _db.Update(p);
             await _db.SaveChangesAsync();
         }
 
