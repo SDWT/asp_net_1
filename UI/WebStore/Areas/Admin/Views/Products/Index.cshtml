@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebStore.Domain.Entities.Product>
+﻿@model IEnumerable<WebStore.Domain.DTO.Products.ProductDTO>
 
 @{
     Layout = "_LayoutProducts";
@@ -54,9 +54,9 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </a>
                     </td>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.Section.Name)
-                    </td>
+                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.Brand.Name)
                     </td>
