@@ -12,6 +12,9 @@ using WebStore.Domain.Entities.Identity;
 
 namespace WebStore.ServiceHosting.Controllers
 {
+    /// <summary>
+    /// Контроллер API для работы с пользователями
+    /// </summary>
     //[Route("api/[controller]")]
     [Route("api/users")]
     [Produces("application/json")]
@@ -26,6 +29,8 @@ namespace WebStore.ServiceHosting.Controllers
 
         /* ---------------------------------------------------------- */
 
+        /// <summary>Получение всех пользователей системы</summary>
+        /// <returns>Перечисление пользователей, зарегистрированных в системе</returns>
         [HttpGet("AllUsers")]
         public async Task<IEnumerable<User>> GetAllUsers() => await _UserStore.Users.ToArrayAsync();
 

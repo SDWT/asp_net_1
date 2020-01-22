@@ -12,18 +12,25 @@ using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
 using WebStore.Services.DataBase;
 using WebStore.Services.Product;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace WebStore.ServiceHosting
 {
+    /// <summary> Класс конфигурации и настройки запуска </summary>
     public class Startup
     {
+        /// <summary> Конфиурация </summary>
         public IConfiguration Configuration { get; }
 
+        /// <summary> Конструктор с дополнительной внешней конфигурацией</summary>
+        /// <param name="configuration">внешняя конфигурация</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        /// <summary> Добавление сервисов </summary>
+        /// <param name="services">Коллекция сервисов</param>
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -62,9 +69,19 @@ namespace WebStore.ServiceHosting
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<ICartService, CookieCartService>();
 
+            services.AddSwaggerGen(opt =>
+            {
+                opt.SwaggerDoc("v1", new Info { Title = "WebStore.API", Version = "v1" });
+                opt.IncludeXmlComments("WebStore.ServiceHosting.xml");
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
+        /// <summary> Конфигурация доступных сервисов </summary>
+        /// <param name="app">Приложение</param>
+        /// <param name="env">Среда выполнения</param>
+        /// <param name="db">Инициализатор базы данных</param>
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, WebStoreContextInitializer db)
         {
@@ -74,6 +91,18 @@ namespace WebStore.ServiceHosting
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger(c =>
+            {
+                c.RouteTemplate = "TestUI/swagger/{documentName}/swagger.json";
+            });
+            app.UseSwaggerUI(opt =>
+            {
+                opt.SwaggerEndpoint("/TestUI/swagger/v1/swagger.json", "WebStore.API");
+                opt.RoutePrefix = "TestUI";
+                opt.DocumentTitle = "Интерфейс для тестрования | Swagger UI";
+            });
+
 
             app.UseMvc();
         }
