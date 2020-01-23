@@ -45,6 +45,12 @@ namespace WebStore.Controllers
             var user = new User
             {
                 UserName = Model.UserName
+                #region Extra info test
+                //,
+                //Description = "The big Test Cat",
+                //Email = $"{Model.UserName}@testdomain.com",
+                //PhoneNumber = $"+00000000000"
+                #endregion
             };
 
             var registration_result = await _UserManager.CreateAsync(user, Model.Password);
