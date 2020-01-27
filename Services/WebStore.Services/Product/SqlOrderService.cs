@@ -9,6 +9,7 @@ using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
 using WebStore.Domain.DTO.Orders;
 using ConvertDTO.Orders;
+using Microsoft.Extensions.Logging;
 
 namespace WebStore.Services.Product
 {
@@ -16,11 +17,13 @@ namespace WebStore.Services.Product
     {
         private readonly WebStoreContext _db;
         private readonly UserManager<User> _UserManager;
+        private readonly Logger<SqlOrderService> _Logger;
 
-        public SqlOrderService(WebStoreContext db, UserManager<User> UserManager)
+        public SqlOrderService(WebStoreContext db, UserManager<User> UserManager, Logger<SqlOrderService> Logger)
         {
             _db = db;
             _UserManager = UserManager;
+            _Logger = Logger;
         }
 
         public OrderDTO GetOrderById(int Id)
@@ -29,7 +32,7 @@ namespace WebStore.Services.Product
             .Include(order => order.OrderItems)
             .FirstOrDefault(order => order.Id == Id);
 
-            return o is null ? null : o.ConvertToDTO();
+            return o?.ConvertToDTO();
         }
 
         public IEnumerable<OrderDTO> GetUserOrders(string UserName) => _db.Orders
