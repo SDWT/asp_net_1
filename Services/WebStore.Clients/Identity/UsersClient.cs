@@ -62,21 +62,11 @@ namespace WebStore.Clients.Identity
 
         public async Task<IdentityResult> CreateAsync(User user, CancellationToken cancel)
         {
-            using (_Logger.BeginScope("Создание пользователя с именем {0}", user.UserName))
-            {
-                if (await (await PostAsync($"{_ServiceAddress}/User", user, cancel))
-                    .Content
-                    .ReadAsAsync<bool>(cancel))
-                {
-                    _Logger.LogInformation("Пользователь с именем {0} успешно создан", user.UserName);
-                    return IdentityResult.Success;
-                }
-                else
-                {
-                    _Logger.LogInformation("Пользователь с именем {0} не создан", user.UserName);
-                    return IdentityResult.Failed();
-                }
-            }
+            return await (await PostAsync($"{_ServiceAddress}/User", user, cancel))
+                .Content
+                .ReadAsAsync<bool>(cancel)
+                ? IdentityResult.Success
+                : IdentityResult.Failed();
         }
 
         public async Task<IdentityResult> UpdateAsync(User user, CancellationToken cancel)
