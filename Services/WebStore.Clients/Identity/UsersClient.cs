@@ -10,12 +10,15 @@ using WebStore.Clients.Base;
 using WebStore.Domain.DTO.Identity;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
+using Microsoft.Extensions.Logging;
 
 namespace WebStore.Clients.Identity
 {
     public class UsersClient : BaseClient, IUsersClient
     {
-        public UsersClient(IConfiguration config) : base(config, "api/users") { }
+        private readonly ILogger<UsersClient> _Logger;
+
+        public UsersClient(IConfiguration config, ILogger<UsersClient> Logger) : base(config, "api/users") => _Logger = Logger;
 
         #region Implementation of IUserStore<User>
 
@@ -37,6 +40,7 @@ namespace WebStore.Clients.Identity
 
         public async Task SetUserNameAsync(User user, string name, CancellationToken cancel)
         {
+            _Logger.LogInformation("Изменение имени пользователя {0} с {1} на {2}", user.Id, user.UserName, name);
             user.UserName = name;
             await PostAsync($"{_ServiceAddress}/UserName/{name}", user, cancel);
         }
@@ -51,6 +55,7 @@ namespace WebStore.Clients.Identity
 
         public async Task SetNormalizedUserNameAsync(User user, string name, CancellationToken cancel)
         {
+            _Logger.LogInformation("Изменение нормализованного имени пользователя {0} с {1} на {2}", user.Id, user.NormalizedUserName, name);
             user.NormalizedUserName = name;
             await PostAsync($"{_ServiceAddress}/NormalUserName/{name}", user, cancel);
         }
@@ -58,8 +63,8 @@ namespace WebStore.Clients.Identity
         public async Task<IdentityResult> CreateAsync(User user, CancellationToken cancel)
         {
             return await (await PostAsync($"{_ServiceAddress}/User", user, cancel))
-               .Content
-               .ReadAsAsync<bool>(cancel)
+                .Content
+                .ReadAsAsync<bool>(cancel)
                 ? IdentityResult.Success
                 : IdentityResult.Failed();
         }
@@ -98,11 +103,13 @@ namespace WebStore.Clients.Identity
 
         public async Task AddToRoleAsync(User user, string role, CancellationToken cancel)
         {
+            _Logger.LogInformation("Пользователю {0} назначается роль {1}", user.UserName ?? user.Id, role);
             await PostAsync($"{_ServiceAddress}/Role/{role}", user, cancel);
         }
 
         public async Task RemoveFromRoleAsync(User user, string role, CancellationToken cancel)
         {
+            _Logger.LogInformation("У пользователя {0} удаляется роль {1}", user.UserName ?? user.Id, role);
             await PostAsync($"{_ServiceAddress}/Role/Delete/{role}", user, cancel);
         }
 
