@@ -85,26 +85,28 @@ namespace WebStore.Controllers
 
             if (!ModelState.IsValid)
                 return View(Model);
-
-            var login_result = await _SignInManager.PasswordSignInAsync(
+            using (_Logger.BeginScope("Авторизация пользователя {0}", Model.UserName))
+            {
+                var login_result = await _SignInManager.PasswordSignInAsync(
                 Model.UserName,
                 Model.Password,
                 Model.RemeberMe,
                 true); // Блокировать, если ошибок доступа больше, чем указано в конфигурации
 
-            if (login_result.Succeeded)
-            {
-                _Logger.LogInformation("Пользователь {0} вошёл в систему", Model.UserName);
+                if (login_result.Succeeded)
+                {
+                    _Logger.LogInformation("Пользователь {0} вошёл в систему", Model.UserName);
 
-                if (Url.IsLocalUrl(Model.ReturnUrl))
-                    return Redirect(Model.ReturnUrl);
-                else
-                    return RedirectToAction("Index", "Home");
+                    if (Url.IsLocalUrl(Model.ReturnUrl))
+                        return Redirect(Model.ReturnUrl);
+                    else
+                        return RedirectToAction("Index", "Home");
+                }
+
+                ModelState.AddModelError("", "Неверное имя пользователя или пароль");
+
+                _Logger.LogWarning("Ошибка при входе пользователя {0} в систему", Model.UserName);
             }
-
-            ModelState.AddModelError("", "Неверное имя пользователя или пароль");
-
-            _Logger.LogWarning("Ошибка при входе пользователя {0} в систему", Model.UserName);
             return View(Model);
         }
 
@@ -123,7 +125,7 @@ namespace WebStore.Controllers
 
         public IActionResult Index(string ReturnUrl = null)
         {
-            return View(new AccountMainViewModel 
+            return View(new AccountMainViewModel
             {
                 Login = new LoginUserViewModel { ReturnUrl = ReturnUrl },
                 Register = new RegisterUserViewModel()
@@ -131,6 +133,19 @@ namespace WebStore.Controllers
             });
         }
 
-        public IActionResult AccessDenied() => View();
+        public IActionResult AccessDenied(string ReturnUrl = "закрытым частям приложения")
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user_name = User.Identity.Name;
+                _Logger.LogWarning("Попытка доступа к {0} пользователем {1}", ReturnUrl, user_name);
+            }
+            else
+            {
+                _Logger.LogWarning("Попытка доступа к {0}", ReturnUrl);
+            }
+            
+            return View();
+        }
     }
 }
