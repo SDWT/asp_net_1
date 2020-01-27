@@ -1,0 +1,215 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebStore.ServiceHosting</name>
+    </assembly>
+    <members>
+        <member name="T:WebStore.ServiceHosting.Controllers.EmployeesApiController">
+            <summary>
+            Контроллер API для работы с сотрудниками
+            </summary>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.EmployeesApiController.#ctor(WebStore.Interfaces.Services.IEmployeesData)">
+            <summary> 
+            Конструктор контроллера для работы данными сотрудников
+            из интерфейса IEmployeesData
+            </summary>
+            <param name="EmployeesData">Реализация интерфейса</param>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.EmployeesApiController.GetAll">
+            <summary> Получение всех работников системы </summary>
+            <returns>Перечисление работников, доступных в системе</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.EmployeesApiController.GetById(System.Int32)">
+            <summary>Получение работника из системы по идентификатору </summary>
+            <param name="Id">Идентификатор</param>
+            <returns>Работника с этим идентификатор</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.EmployeesApiController.Add(WebStore.Domain.ViewModels.EmployeeViewModel)">
+            <summary>Добавление работника в систему </summary>
+            <param name="Employee">Модель работника</param>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.EmployeesApiController.Delete(System.Int32)">
+            <summary>Удаление работника из системы по идентификатору </summary>
+            <param name="Id">Идентификатор</param>
+            <returns>True, если работник был удалён</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.EmployeesApiController.Edit(System.Int32,WebStore.Domain.ViewModels.EmployeeViewModel)">
+            <summary>Изменение работника из системы по идентификатору </summary>
+            <param name="Id">Идентификатор</param>
+            <param name="Employee">Новые данные работника</param>
+            <returns>Данные работника</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.EmployeesApiController.SaveChanges">
+            <summary> Сохранение изменений </summary>
+        </member>
+        <member name="T:WebStore.ServiceHosting.Controllers.OrdersApiController">
+            <summary>API контроллер заказов</summary>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.OrdersApiController.#ctor(WebStore.Interfaces.Services.IOrderService)">
+            <summary>Конструктор контролера</summary>
+            <param name="IOrderService">Интерфейс взаимодействия с сервисом хранения заказов</param>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.OrdersApiController.CreateOrder(WebStore.Domain.DTO.Orders.CreateOrderModel,System.String)">
+            <summary>Создание заказа пользователя</summary>
+            <param name="OrderModel">Модель создания заказа</param>
+            <param name="UserName">Пользователь</param>
+            <returns>Модель заказа</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.OrdersApiController.GetOrderById(System.Int32)">
+            <summary>Получение заказа по идентификатору</summary>
+            <param name="Id">Идентификатор</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.OrdersApiController.GetUserOrders(System.String)">
+            <summary>Получение всех заказов пользователя</summary>
+            <param name="UserName">Пользователь</param>
+            <returns>Перечисление заказов</returns>
+        </member>
+        <member name="T:WebStore.ServiceHosting.Controllers.ProductsApiController">
+            <summary>API контроллер товаров</summary>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.ProductsApiController.#ctor(WebStore.Interfaces.Services.IProductData)">
+            <summary>Конструктор контролера</summary>
+            <param name="ProductData">Интерфейс взаимодействия с сервисом хранения товаров</param>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.ProductsApiController.GetBrands">
+            <summary>Получение брендов из системы</summary>
+            <returns>Перечисление брендов</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.ProductsApiController.GetSections">
+            <summary>Получение секций из системы</summary>
+            <returns>Перечисление секций</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.ProductsApiController.GetProducts(WebStore.Domain.Entities.ProductFilter)">
+            <summary> Получение отфильтрованных товаров </summary>
+            <param name="Filter">Фильтр, может отсуствовать</param>
+            <returns>Перечисление товаров</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.ProductsApiController.GetProductById(System.Int32)">
+            <summary>Получение товара по идентификатору</summary>
+            <param name="id">Идентификатор</param>
+            <returns>Товар</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.ProductsApiController.AddProduct(WebStore.Domain.DTO.Products.ProductDTO)">
+            <summary>Добавление товара</summary>
+            <param name="product">Модель товара</param>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.ProductsApiController.RemoveProduct(System.Int32)">
+            <summary>Удаление товара по идентификатору</summary>
+            <param name="id">Идентификатор</param>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.ProductsApiController.UpdateProduct(System.Int32,WebStore.Domain.DTO.Products.ProductDTO)">
+            <summary>Изменеие товара по идентификатору</summary>
+            <param name="id">Идентификатор</param>
+            <param name="product">Изменнёный товар</param>
+        </member>
+        <member name="T:WebStore.ServiceHosting.Controllers.RolesApiController">
+            <summary> Контроллер API для работы с ролями </summary>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.RolesApiController.#ctor(WebStore.DAL.Context.WebStoreContext)">
+            <summary> Конструктор API для работы с ролями по контексту базы данных </summary>
+            <param name="db">Контекст базы данных</param>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.RolesApiController.GetAllRoles">
+            <summary>Получение всех ролей системы</summary>
+            <returns>Перечисление ролей, доступных в системе</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.RolesApiController.CreateAsync(WebStore.Domain.Entities.Identity.Role)">
+            <summary> Создание роли </summary>
+            <param name="role">Модель роли</param>
+            <returns>True, если роль была успешно создана</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.RolesApiController.UpdateAsync(WebStore.Domain.Entities.Identity.Role)">
+            <summary> Редактирование роли по модели роли </summary>
+            <param name="role">Модель роли</param>
+            <returns>True, если роль была успешно изменена</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.RolesApiController.DeleteAsync(WebStore.Domain.Entities.Identity.Role)">
+            <summary> Удаление роли по модели роли </summary>
+            <param name="role">Модель роли</param>
+            <returns>True, если роль была успешно удалена</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.RolesApiController.GetRoleIdAsync(WebStore.Domain.Entities.Identity.Role)">
+            <summary> Получение идентификатора роли по роли</summary>
+            <param name="role">Модель роли</param>
+            <returns>Идентификатор роли</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.RolesApiController.GetRoleNameAsync(WebStore.Domain.Entities.Identity.Role)">
+            <summary> Получение имени роли по роли</summary>
+            <param name="role">Модель роли</param>
+            <returns>Имя роли</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.RolesApiController.SetRoleNameAsync(WebStore.Domain.Entities.Identity.Role,System.String)">
+            <summary> Установка имени роли по роли</summary>
+            <param name="role">Роль для изменения имени</param>
+            <param name="name">Новое имя роли</param>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.RolesApiController.GetNormalizedRoleNameAsync(WebStore.Domain.Entities.Identity.Role)">
+            <summary>
+            Получение нормализированного (приведённого к верхнему регистру)
+            имени роли по роли
+            </summary>
+            <param name="role">Модель роли</param>
+            <returns>Нормализированное имя роли</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.RolesApiController.SetNormalizedRoleNameAsync(WebStore.Domain.Entities.Identity.Role,System.String)">
+            <summary> Установка нормализированного имени роли по роли</summary>
+            <param name="role">Роль для изменения нормализированного имени</param>
+            <param name="name">Новое нормализированное имя роли</param>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.RolesApiController.FindByIdAsync(System.String)">
+            <summary> Получение роли по идентификатору </summary>
+            <param name="id">Идентификатор</param>
+            <returns>Роль</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.RolesApiController.FindByNameAsync(System.String)">
+            <summary> Получение роли по имени </summary>
+            <param name="name">Имя</param>
+            <returns>Роль</returns>
+        </member>
+        <member name="T:WebStore.ServiceHosting.Controllers.UsersApiController">
+            <summary>
+            Контроллер API для работы с пользователями
+            </summary>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.UsersApiController.GetAllUsers">
+            <summary>Получение всех пользователей системы</summary>
+            <returns>Перечисление пользователей, зарегистрированных в системе</returns>
+        </member>
+        <member name="T:WebStore.ServiceHosting.Program">
+            <summary>Класс программы</summary>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Program.Main(System.String[])">
+            <summary> Точка входа в программу </summary>
+            <param name="args">Аргументы командной строки</param>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Program.CreateWebHostBuilder(System.String[])">
+            <summary>
+            Метод создания генератора WebHost
+            </summary>
+            <param name="args">Аргументы</param>
+            <returns>Экземпляр генератора WebHost</returns>
+        </member>
+        <member name="T:WebStore.ServiceHosting.Startup">
+            <summary> Класс конфигурации и настройки запуска </summary>
+        </member>
+        <member name="P:WebStore.ServiceHosting.Startup.Configuration">
+            <summary> Конфиурация </summary>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary> Конструктор с дополнительной внешней конфигурацией</summary>
+            <param name="configuration">внешняя конфигурация</param>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary> Добавление сервисов </summary>
+            <param name="services">Коллекция сервисов</param>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,WebStore.Services.DataBase.WebStoreContextInitializer)">
+            <summary> Конфигурация доступных сервисов </summary>
+            <param name="app">Приложение</param>
+            <param name="env">Среда выполнения</param>
+            <param name="db">Инициализатор базы данных</param>
+        </member>
+    </members>
+</doc>
