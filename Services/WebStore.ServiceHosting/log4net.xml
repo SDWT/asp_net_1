@@ -9,8 +9,8 @@
     <filter type="log4net.Filter.LoggerMatchFilter">
       <acceptOnMatch value="false" />
     </filter>
-    <datePattern value="dd.MM.yyyy" />
-    <file type="log4net.Util.PatternString" value="Logs/%date{yyyy}/%date{MM}/%date{dd}/WebStore-Services.log" />
+    <datePattern value="_yyyy.MM.dd'.log'" />
+    <file type="log4net.Util.PatternString" value="Logs/%date{yyyy}/%date{MM}/%date{dd}/WebStore-Services" />
     <appendToFile value="true" />
     <maximumFileSize value="50MB" />
     <maxSizeRollBackups value="-1" />

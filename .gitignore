@@ -352,3 +352,5 @@ healthchecksdb
 /UI/WebStore/wwwroot/js/site.min.js.gz
 /UI/WebStore/wwwroot/js/site.min.js.map
 /UI/WebStore/wwwroot/lib
+/Services/WebStore.ServiceHosting/Logs
+/UI/WebStore/Logs
