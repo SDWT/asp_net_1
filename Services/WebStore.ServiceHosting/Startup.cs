@@ -6,13 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Swagger;
 using System;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
+using WebStore.Logger;
 using WebStore.Services.DataBase;
 using WebStore.Services.Product;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace WebStore.ServiceHosting
 {
@@ -82,9 +84,16 @@ namespace WebStore.ServiceHosting
         /// <param name="app">Приложение</param>
         /// <param name="env">Среда выполнения</param>
         /// <param name="db">Инициализатор базы данных</param>
+        /// <param name="log">Система логирования</param>
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, WebStoreContextInitializer db)
+        public void Configure(
+            IApplicationBuilder app, 
+            IHostingEnvironment env, 
+            WebStoreContextInitializer db,
+            ILoggerFactory log)
         {
+            log.AddLog4Net();
+
             db.InitializeAsync().Wait();
 
             if (env.IsDevelopment())

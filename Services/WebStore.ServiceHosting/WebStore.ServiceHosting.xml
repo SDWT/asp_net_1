@@ -205,11 +205,12 @@
             <summary> Добавление сервисов </summary>
             <param name="services">Коллекция сервисов</param>
         </member>
-        <member name="M:WebStore.ServiceHosting.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,WebStore.Services.DataBase.WebStoreContextInitializer)">
+        <member name="M:WebStore.ServiceHosting.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,WebStore.Services.DataBase.WebStoreContextInitializer,Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary> Конфигурация доступных сервисов </summary>
             <param name="app">Приложение</param>
             <param name="env">Среда выполнения</param>
             <param name="db">Инициализатор базы данных</param>
+            <param name="log">Система логирования</param>
         </member>
     </members>
 </doc>
