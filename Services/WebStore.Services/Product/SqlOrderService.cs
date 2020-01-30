@@ -8,8 +8,8 @@ using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
 using WebStore.Domain.DTO.Orders;
-using ConvertDTO.Orders;
 using Microsoft.Extensions.Logging;
+using WebStore.Services.Map;
 
 namespace WebStore.Services.Product
 {
@@ -32,7 +32,7 @@ namespace WebStore.Services.Product
             .Include(order => order.OrderItems)
             .FirstOrDefault(order => order.Id == Id);
 
-            return o?.ConvertToDTO();
+            return o.ToDTO();
         }
 
         public IEnumerable<OrderDTO> GetUserOrders(string UserName) => _db.Orders
@@ -40,7 +40,7 @@ namespace WebStore.Services.Product
             .Include(order => order.OrderItems)
             .Where(order => order.User.NormalizedUserName == UserName.ToUpper())
             .ToArray()
-            .Select(o => o.ConvertToDTO());
+            .Select(OrderMapper.ToDTO);
 
         public OrderDTO CreateOrder(CreateOrderModel OrderModel, string UserName)
         {
@@ -86,7 +86,7 @@ namespace WebStore.Services.Product
                     _db.SaveChanges();
                     transaction.Commit();
                     _Logger.LogInformation("Заказ сохранён в базе данных");
-                    return order.ConvertToDTO();
+                    return order.ToDTO();
                 }
             }
         }

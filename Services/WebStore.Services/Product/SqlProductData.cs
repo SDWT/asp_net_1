@@ -6,7 +6,7 @@ using WebStore.Domain.Entities;
 using WebStore.Interfaces.Services;
 using System.Threading.Tasks;
 using WebStore.Domain.DTO.Products;
-using ConvertDTO.Products;
+using WebStore.Services.Map;
 
 namespace WebStore.Services.Product
 {
@@ -36,14 +36,14 @@ namespace WebStore.Services.Product
             
             
             // query.ToArray();
-            return query.Select(p => p.ConvertToDTO()).AsEnumerable(); // Мне было лень
+            return query.Select(ProductMapper.ToDTO).AsEnumerable();
         }
 
         public ProductDTO GetProductById(int id) => _db.Products
             .Include(p => p.Brand)
             .Include(p => p.Section)
             .FirstOrDefault(p => p.Id == id)
-            .ConvertToDTO();
+            .ToDTO();
 
         public async Task AddProduct(ProductDTO product)
         {

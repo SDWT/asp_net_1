@@ -8,6 +8,7 @@ using WebStore.Domain.Entities;
 using WebStore.Domain.Models;
 using WebStore.Interfaces.Services;
 using WebStore.Domain.ViewModels;
+using WebStore.Services.Map;
 
 namespace WebStore.Services.Product
 {
@@ -109,15 +110,7 @@ namespace WebStore.Services.Product
                 Ids = Cart.Items.Select(i => i.ProductId).ToList()
             });
 
-            var products_view_models = products.Select(p => new ProductViewModel
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Order = p.Order,
-                Price = p.Price,
-                ImageUrl = p.ImageUrl,
-                Brand = p.Brand?.Name
-            });
+            var products_view_models = products.Select(ProductMapper.ToViewModel);
 
             return new CartViewModel
             {

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Services;
 using WebStore.Domain.ViewModels;
+using WebStore.Services.Map;
 
 namespace WebStore.Controllers
 {
@@ -24,14 +25,7 @@ namespace WebStore.Controllers
             {
                 SectionId = SectionId,
                 BrandId = BrandId,
-                Products = products.Select(p => new ProductViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Order = p.Order,
-                    ImageUrl = p.ImageUrl,
-                    Price = p.Price
-                }).OrderBy(p => p.Order)
+                Products = products.Select(ProductMapper.ToViewModel).OrderBy(p => p.Order)
             });
         }
 
@@ -42,15 +36,7 @@ namespace WebStore.Controllers
             if (product is null)
                 return NotFound();
 
-            return View(new ProductViewModel
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Price = product.Price,
-                ImageUrl = product.ImageUrl,
-                Order = product.Order,
-                Brand = product.Brand?.Name
-            });
+            return View(product.ToViewModel());
         }
     }
 }
