@@ -14,7 +14,7 @@ namespace WebStore.Controllers
 
         public HomeController(IProductData ProductData) => _ProductData = ProductData;
 
-        public IActionResult Index(int? SectionId, int? BrandId)
+        public IActionResult Index(int? SectionId = null, int? BrandId = null)
         {
             var products = _ProductData.GetProducts(new ProductFilter
             {
@@ -40,6 +40,16 @@ namespace WebStore.Controllers
         public IActionResult ContactUs() => View();
 
         public IActionResult Error404() => View();
+
+        public IActionResult ErrorStatus(string Id)
+        {
+            switch (Id)
+            {
+                default: return Content($"Статусный код {Id}");
+                case "404":
+                    return RedirectToAction(nameof(Error404));
+            }
+        }
 
         public IActionResult ThrowException() => throw new ApplicationException("Тестовая ошибка в программе");
 
