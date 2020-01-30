@@ -69,7 +69,8 @@ namespace WebStore.ServiceHosting
             services.AddScoped<IOrderService, SqlOrderService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<ICartService, CookieCartService>();
+            services.AddScoped<ICartService, CartService>();
+            services.AddScoped<ICartStore, CookiesCartStore>();
 
             services.AddSwaggerGen(opt =>
             {

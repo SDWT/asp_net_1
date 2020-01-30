@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Services;
 using WebStore.Domain.ViewModels;
+using WebStore.Services.Map;
+using Microsoft.Extensions.Logging;
 
 namespace WebStore.Controllers
 {
@@ -24,33 +26,23 @@ namespace WebStore.Controllers
             {
                 SectionId = SectionId,
                 BrandId = BrandId,
-                Products = products.Select(p => new ProductViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Order = p.Order,
-                    ImageUrl = p.ImageUrl,
-                    Price = p.Price
-                }).OrderBy(p => p.Order)
+                Products = products.Select(ProductMapper.ToViewModel).OrderBy(p => p.Order)
             });
         }
 
-        public IActionResult Details(int id)
+        public IActionResult Details(int id, [FromServices] ILogger<CatalogController> Logger)
         {
             var product = _ProductData.GetProductById(id);
 
             if (product is null)
-                return NotFound();
-
-            return View(new ProductViewModel
             {
-                Id = product.Id,
-                Name = product.Name,
-                Price = product.Price,
-                ImageUrl = product.ImageUrl,
-                Order = product.Order,
-                Brand = product.Brand?.Name
-            });
+                Logger.LogWarning("Запрошенный товар {0} отсутствует в каталоге", id);
+                return NotFound();
+            }
+
+            Logger.LogInformation("Товар {0} найден: {1}", id, product.Name);
+
+            return View(product.ToViewModel());
         }
     }
 }

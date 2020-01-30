@@ -13,6 +13,7 @@ using WebStore.Clients.Orders;
 using WebStore.Clients.Products;
 using WebStore.Clients.Values;
 using WebStore.Domain.Entities.Identity;
+using WebStore.Infrastructure.Middleware;
 using WebStore.Interfaces.Api;
 using WebStore.Interfaces.Services;
 using WebStore.Logger;
@@ -33,7 +34,8 @@ namespace WebStore
         {
             services.AddSingleton<IEmployeesData, EmployeesClient>();
             services.AddScoped<IProductData, ProductsClient>();
-            services.AddScoped<ICartService, CookieCartService>();
+            services.AddScoped<ICartService, CartService>();
+            services.AddScoped<ICartStore, CookiesCartStore>();
             services.AddScoped<IOrderService, OrdersClient>();
 
             services.AddTransient<IValuesService, ValuesClient>();
@@ -117,6 +119,7 @@ namespace WebStore
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseSession();
+            app.UseErrorHandlingMiddleware();
 
             #region Middleware - примеры
 
