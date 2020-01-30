@@ -47,10 +47,10 @@ namespace WebStore.Controllers
         public IActionResult CheckOut(OrderViewModel Model, [FromServices] IOrderService OrderService)
         {
             if (!ModelState.IsValid)
-                return View("Details", new CartDetailsViewModel
+                return View(nameof(Details), new CartDetailsViewModel
                 {
                     CartViewModel = _CartService.TransformFromCart(),
-                    OrderViewModel = new OrderViewModel()
+                    OrderViewModel = Model
                 });
 
             var create_order_model = new CreateOrderModel
