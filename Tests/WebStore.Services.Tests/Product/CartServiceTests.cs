@@ -15,10 +15,12 @@ namespace WebStore.Services.Tests.Product
     [TestClass]
     public class CartServiceTests
     {
-        private Cart _Cart;
         private const int item_id_1 = 1;
         private const int item_id_2 = 2;
 
+        private Cart _Cart;
+        private Mock<IProductData> _ProductDataMock;
+        private Mock<ICartStore> _CartStoreMock;
 
         [TestInitialize]
         public void SetupTest()
@@ -31,6 +33,13 @@ namespace WebStore.Services.Tests.Product
                     new CartItem { ProductId = item_id_2, Quantity = 5 },
                 }
             };
+
+            _ProductDataMock = new Mock<IProductData>();
+
+            _CartStoreMock = new Mock<ICartStore>();
+            _CartStoreMock
+               .Setup(c => c.Cart)
+               .Returns(_Cart);
         }
 
         [TestMethod]
@@ -38,9 +47,7 @@ namespace WebStore.Services.Tests.Product
         {
             const int expected_count = 6;
 
-            var cart = _Cart;
-
-            var actual_count = cart.ItemsCount;
+            var actual_count = _Cart.ItemsCount;
 
             Assert.Equal(expected_count, actual_count);
         }
@@ -93,92 +100,56 @@ namespace WebStore.Services.Tests.Product
         [TestMethod]
         public void CartService_RemoveFromCart_Remove_Correct_Item()
         {
-            var cart = _Cart;
-
-            var product_data_mock = new Mock<IProductData>();
-
-            var cart_store_mock = new Mock<ICartStore>();
-            cart_store_mock
-               .Setup(c => c.Cart)
-               .Returns(cart);
-
-            var cart_service = new CartService(product_data_mock.Object, cart_store_mock.Object);
+            var cart_service = new CartService(_ProductDataMock.Object, _CartStoreMock.Object);
 
             cart_service.RemoveFromCart(item_id_1);
 
-            Assert.Single(cart.Items);
-            Assert.Equal(2, cart.Items[0].ProductId);
+            Assert.Single(_Cart.Items);
+            Assert.Equal(2, _Cart.Items[0].ProductId);
         }
 
         [TestMethod]
         public void CartService_RemoveAll_ClearCart()
         {
-            var cart = _Cart;
-
-            var product_data_mock = new Mock<IProductData>();
-
-            var cart_store_mock = new Mock<ICartStore>();
-            cart_store_mock
-               .Setup(c => c.Cart)
-               .Returns(cart);
-
-            var cart_service = new CartService(product_data_mock.Object, cart_store_mock.Object);
+            var cart_service = new CartService(_ProductDataMock.Object, _CartStoreMock.Object);
 
             cart_service.RemoveAll();
 
-            Assert.Empty(cart.Items);
+            Assert.Empty(_Cart.Items);
         }
 
         [TestMethod]
         public void CartService_Decrement_Correct()
         {
             const int item_id = 2;
-            var cart = _Cart;
 
-            var product_data_mock = new Mock<IProductData>();
-
-            var cart_store_mock = new Mock<ICartStore>();
-            cart_store_mock
-               .Setup(c => c.Cart)
-               .Returns(cart);
-
-            var cart_service = new CartService(product_data_mock.Object, cart_store_mock.Object);
+            var cart_service = new CartService(_ProductDataMock.Object, _CartStoreMock.Object);
 
             cart_service.DecrementFromCart(item_id);
 
-            Assert.Equal(5, cart.ItemsCount);
-            Assert.Equal(2, cart.Items.Count);
-            Assert.Equal(item_id, cart.Items[1].ProductId);
-            Assert.Equal(4, cart.Items[1].Quantity);
+            Assert.Equal(5, _Cart.ItemsCount);
+            Assert.Equal(2, _Cart.Items.Count);
+            Assert.Equal(item_id, _Cart.Items[1].ProductId);
+            Assert.Equal(4, _Cart.Items[1].Quantity);
         }
 
         [TestMethod]
         public void CartService_Remove_Item_When_Decrement_to_0()
         {
             const int item_id = 1;
-            var cart = _Cart;
 
-            var product_data_mock = new Mock<IProductData>();
-
-            var cart_store_mock = new Mock<ICartStore>();
-            cart_store_mock
-               .Setup(c => c.Cart)
-               .Returns(cart);
-
-            var cart_service = new CartService(product_data_mock.Object, cart_store_mock.Object);
+            var cart_service = new CartService(_ProductDataMock.Object, _CartStoreMock.Object);
 
             cart_service.DecrementFromCart(item_id);
 
-            Assert.Equal(5, cart.ItemsCount);
+            Assert.Equal(5, _Cart.ItemsCount);
 
-            Assert.Single(cart.Items);
+            Assert.Single(_Cart.Items);
         }
 
         [TestMethod]
         public void CartService_TransformFromCart_WorkCorrect()
         {
-            var cart = _Cart;
-
             var products = new List<ProductDTO>
             {
                 new ProductDTO
@@ -206,12 +177,7 @@ namespace WebStore.Services.Tests.Product
                .Setup(c => c.GetProducts(It.IsAny<ProductFilter>()))
                .Returns(products);
 
-            var cart_store_mock = new Mock<ICartStore>();
-            cart_store_mock
-               .Setup(c => c.Cart)
-               .Returns(cart);
-
-            var cart_service = new CartService(product_data_mock.Object, cart_store_mock.Object);
+            var cart_service = new CartService(product_data_mock.Object, _CartStoreMock.Object);
 
             var result = cart_service.TransformFromCart();
 
