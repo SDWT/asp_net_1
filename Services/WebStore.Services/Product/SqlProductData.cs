@@ -36,7 +36,11 @@ namespace WebStore.Services.Product
             
             
             // query.ToArray();
-            return query.Select(ProductMapper.ToDTO).AsEnumerable();
+            return query
+                .Include(p => p.Brand)
+                .Include(p => p.Section)
+                .Select(ProductMapper.ToDTO)
+                .AsEnumerable();
         }
 
         public ProductDTO GetProductById(int id) => _db.Products
