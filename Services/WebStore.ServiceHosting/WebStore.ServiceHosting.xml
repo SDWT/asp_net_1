@@ -104,6 +104,20 @@
             <param name="id">Идентификатор</param>
             <param name="product">Изменнёный товар</param>
         </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.ProductsApiController.GetSectionById(System.Int32)">
+            <summary>
+            Получение секции по идентификатору
+            </summary>
+            <param name="id">Идентификатор</param>
+            <returns>Секция с заданным идентификатором</returns>
+        </member>
+        <member name="M:WebStore.ServiceHosting.Controllers.ProductsApiController.GetBrandById(System.Int32)">
+            <summary>
+            Получение бренда по идентификатору
+            </summary>
+            <param name="id">Идентификатор</param>
+            <returns>Бренд с заданным идентификатором</returns>
+        </member>
         <member name="T:WebStore.ServiceHosting.Controllers.RolesApiController">
             <summary> Контроллер API для работы с ролями </summary>
         </member>

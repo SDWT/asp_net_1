@@ -87,6 +87,10 @@ namespace WebStore.Services.Product
             _db.Products.Remove(product);
             await _db.SaveChangesAsync();
         }
+
+        public Section GetSectionById(int id) => _db.Sections.FirstOrDefault(section => section.Id == id);
+
+        public Brand GetBrandById(int id) => _db.Brands.FirstOrDefault(brand => brand.Id == id);
     }
 
     

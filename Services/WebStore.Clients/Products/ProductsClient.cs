@@ -31,5 +31,9 @@ namespace WebStore.Clients.Products
         public async Task RemoveProduct(int id) => await DeleteAsync($"{_ServiceAddress}/{id}");
 
         public async Task UpdateProduct(int id, ProductDTO product) => await PutAsync($"{_ServiceAddress}/{id}", product);
+
+        public Section GetSectionById(int id) => Get<Section>($"{_ServiceAddress}/sections/{id}");
+
+        public Brand GetBrandById(int id) => Get<Brand>($"{_ServiceAddress}/brands/{id}");
     }
 }

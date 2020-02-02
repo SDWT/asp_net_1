@@ -77,5 +77,21 @@ namespace WebStore.ServiceHosting.Controllers
         {
             return _ProductData.UpdateProduct(id, product);
         }
+
+        /// <summary>
+        /// Получение секции по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <returns>Секция с заданным идентификатором</returns>
+        [HttpGet("sections/{id}")]
+        public Section GetSectionById(int id) => _ProductData.GetSectionById(id);
+
+        /// <summary>
+        /// Получение бренда по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <returns>Бренд с заданным идентификатором</returns>
+        [HttpGet("brands/{id}")]
+        public Brand GetBrandById(int id) => _ProductData.GetBrandById(id);
     }
 }
