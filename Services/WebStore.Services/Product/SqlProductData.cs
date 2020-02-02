@@ -36,7 +36,11 @@ namespace WebStore.Services.Product
             
             
             // query.ToArray();
-            return query.Select(ProductMapper.ToDTO).AsEnumerable();
+            return query
+                .Include(p => p.Brand)
+                .Include(p => p.Section)
+                .Select(ProductMapper.ToDTO)
+                .AsEnumerable();
         }
 
         public ProductDTO GetProductById(int id) => _db.Products
@@ -83,6 +87,10 @@ namespace WebStore.Services.Product
             _db.Products.Remove(product);
             await _db.SaveChangesAsync();
         }
+
+        public Section GetSectionById(int id) => _db.Sections.FirstOrDefault(section => section.Id == id);
+
+        public Brand GetBrandById(int id) => _db.Brands.FirstOrDefault(brand => brand.Id == id);
     }
 
     

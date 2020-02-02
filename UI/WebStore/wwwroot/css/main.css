@@ -1544,6 +1544,7 @@ h2.title {
             background: #FE980F;
             color: #FFFFFF;
             padding: 3px 7px;
+            position: relative;
         }
 
             .breadcrumbs .breadcrumb li a:after {
@@ -1554,8 +1555,8 @@ h2.title {
                 border-style: solid;
                 border-color: transparent transparent transparent #FE980F;
                 position: absolute;
-                top: 11px;
-                left: 48px;
+                top: 4px;
+                right: -15px;
             }
 
         .breadcrumbs .breadcrumb > li + li:before {
@@ -2518,4 +2519,9 @@ h2.title {
 
 .contact-info .social-networks ul li a:hover {
     color: #FE980F;
+}
+
+.panel-body ul li.active, .brands-name ul li.active
+{
+    text-decoration: underline
 }
