@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<div class="breadcrumbs">
+    <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li class="active">Shopping Cart</li>
+    </ol>
+</div>
+@RenderBody()
+
+@section Styles
+{
+    @RenderSection("Styles", false)
+}
+
+@section Scripts
+{
+    @RenderSection("Scripts", false)
+}
