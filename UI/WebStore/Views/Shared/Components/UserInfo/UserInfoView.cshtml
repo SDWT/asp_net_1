@@ -10,7 +10,8 @@
 
         <li><a href="#"><i class="fa fa-star"></i> Список желаний</a></li>
         <li><a asp-controller="Profile" asp-action="Orders"><i class="fa fa-crosshairs"></i> Заказы</a></li>
-        <li><a asp-controller="Cart" asp-action="Details"><i class="fa fa-shopping-cart"></i> Корзина</a></li>
+        @*<li><a asp-controller="Cart" asp-action="Details"><i class="fa fa-shopping-cart"></i> Корзина</a></li>*@
+        <li><vc:cart is-user-info="true"/></li>
 
         <li>
             <form asp-controller="Account" asp-action="Logout" asp-antiforgery="true" method="post">
