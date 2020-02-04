@@ -30,6 +30,9 @@
         Cart.init({
             getCartViewLink: "@Url.Action("GetCartView", "Cart")",
             addToCartLink: "@Url.Action("AddToCartAPI", "Cart")",
+            decrementFromCartLink: "@Url.Action("DecrementFromCartAPI", "Cart")",
+            removeFromCartLink: "@Url.Action("RemoveFromCartAPI", "Cart")",
+            removeAllLink: "@Url.Action("RemoveAllAPI", "Cart")",
             productsCountLink: "@Url.Action("GetProductsCountFromCart", "Cart")"
         });
     })

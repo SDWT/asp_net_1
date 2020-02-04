@@ -4,6 +4,9 @@
     {
         getCartViewLink: "",
         addToCartLink: "",
+        decrementFromCartLink: "",
+        removeFromCartLink: "",
+        removeAllLink: "",
         productsCountLink: ""
     },
 
@@ -18,7 +21,7 @@
     {
         $(".marker-add-to-cart").click(Cart.addToCart);
         $(".cart_quantity_up").click(Cart.incrementItem);
-        //$(".cart_quantity_down").click(Cart.decrementItem);
+        $(".cart_quantity_down").click(Cart.decrementItem);
         //$(".cart_quantity_delete").click(Cart.removeFromCart);
     },
 
@@ -48,15 +51,22 @@
 
     refreshCartView: function ()
     {
-        var container = $("#cart-notification-container");
-        $.get(Cart._properties.getCartViewLink)
-            .done(function (cart_html) { container.html(cart_html); })
-            .fail(function () { console.log("refreshCartView fail"); });
-
-        //var container2 = $("#cart-count-container");
-        //$.get(Cart._properties.productsCountLink)
-        //    .done(function (count_json) { container2.val(count_json["count"]); console.log(count_json["count"]); })
+        //var container = $("#cart-notification-container");
+        //$.get(Cart._properties.getCartViewLink)
+        //    .done(function (cart_html) { container.html(cart_html); })
         //    .fail(function () { console.log("refreshCartView fail"); });
+
+        var container2 = $("#cart-count-container");
+        var count = parseInt($("#cart-count-container").data("count"));
+        $.get(Cart._properties.productsCountLink)
+            .done(function (count_json)
+            {
+                var count = parseInt(count_json["count"]);
+                $("#cart-count-container").data("count", count);
+                //console.log(count);
+                $("#cart-count-container").html(count);
+            })
+            .fail(function () { console.log("refreshCartView fail"); });
     },
 
     incrementItem: function (event)
@@ -65,7 +75,6 @@
 
         var button = $(this);
         var id = button.data("id");
-
         var container = button.closest("tr");
 
         $.get(`${Cart._properties.addToCartLink}/${id}`)
@@ -86,10 +95,25 @@
 
         var button = $(this);
         var id = button.data("id");
+        var container = button.closest("tr");
 
-        //$.get(Cart._properties. + "/" + id)
-        //    .done()
-        //    .fail(function () { console.log("decrementItem fail"); });
+        $.get(`${Cart._properties.decrementFromCartLink}/${id}`)
+            .done(function ()
+            {
+                var count = parseInt($(".cart_quantity_input", container).val());
+                if (count > 1)
+                {
+                    $(".cart_quantity_input", container).val(count - 1);
+                    Cart.refreshPrice(container);
+                }
+                else
+                {
+                    container.remove();
+                    Cart.refreshTotalPrice();
+                }
+                Cart.refreshCartView();
+            })
+            .fail(function () { console.log("decrementItem fail"); });
     },
 
     removeFromCart: function (event)

@@ -106,7 +106,7 @@ namespace WebStore.Controllers
 
         public IActionResult GetCartView() => ViewComponent("Cart");
 
-        //public IActionResult GetProductsCountFromCart() => Json(new { count = $"{_CartService.TransformFromCart().ItemsCount}"});
+        public IActionResult GetProductsCountFromCart() => Json(new { count = $"{_CartService.TransformFromCart().ItemsCount}"});
 
         #endregion
     }
