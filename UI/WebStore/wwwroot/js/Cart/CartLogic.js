@@ -22,7 +22,7 @@
         $(".marker-add-to-cart").click(Cart.addToCart);
         $(".cart_quantity_up").click(Cart.incrementItem);
         $(".cart_quantity_down").click(Cart.decrementItem);
-        //$(".cart_quantity_delete").click(Cart.removeFromCart);
+        $(".cart_quantity_delete").click(Cart.removeFromCart);
     },
 
     addToCart: function (event)
@@ -123,9 +123,14 @@
         var button = $(this);
         var id = button.data("id");
 
-        //$.get(Cart._properties. + "/" + id)
-        //    .done()
-        //    .fail(function () { console.log("removeFromCart fail"); });
+        $.get(Cart._properties.removeFromCartLink + "/" + id)
+            .done(function ()
+            {
+                button.closest("tr").remove();
+                Cart.refreshTotalPrice();
+                Cart.refreshCartView();
+            })
+            .fail(function () { console.log("removeFromCart fail"); });
     },
 
     refreshPrice: function (container)
