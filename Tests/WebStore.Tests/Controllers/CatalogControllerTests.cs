@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -15,6 +16,18 @@ namespace WebStore.Tests.Controllers
     [TestClass]
     public class CatalogControllerTests
     {
+        private Mock<IConfiguration> _ConfigMock;
+        private Mock<IProductData> _ProductMock;
+        private Mock<ILogger<CatalogController>> _LoggerMock;
+
+        [TestInitialize]
+        public void TestSetup()
+        {
+            _ConfigMock = new Mock<IConfiguration>();
+            _ProductMock = new Mock<IProductData>();
+            _LoggerMock = new Mock<ILogger<CatalogController>>();
+        }
+
         [TestMethod]
         public void Details_Returns_With_Correct_View()
         {
@@ -26,8 +39,7 @@ namespace WebStore.Tests.Controllers
             var expected_name = $"Item id {expected_id}";
             var expected_brand_name = $"Brand of item {expected_id}";
 
-            var product_data_mock = new Mock<IProductData>();
-            product_data_mock
+            _ProductMock
                .Setup(p => p.GetProductById(expected_id))
                .Returns<int>(id => new ProductDTO
                {
@@ -38,20 +50,25 @@ namespace WebStore.Tests.Controllers
                    Price = expected_price,
                    Brand = new BrandDTO
                    {
-                       Id = 1,
+                       Id = id,
                        Name = $"Brand of item {id}"
+                   },
+                   Section = new SectionDTO
+                   {
+                       Id = id,
+                       Name = $"Section of product {id}",
+                       Order = 1
                    }
                });
 
-            var controller = new CatalogController(product_data_mock.Object);
+            var controller = new CatalogController(_ProductMock.Object, _ConfigMock.Object);
 
-            var logger_mock = new Mock<ILogger<CatalogController>>();
 
             #endregion
 
             #region Act - выполнение тестируемого кода
 
-            var result = controller.Details(expected_id, logger_mock.Object);
+            var result = controller.Details(expected_id, _LoggerMock.Object);
 
             #endregion
 
@@ -75,21 +92,17 @@ namespace WebStore.Tests.Controllers
 
             const int expected_id = 1;
 
-            var logger_mock = new Mock<ILogger<CatalogController>>();
-
-            var product_data_mock = new Mock<IProductData>();
-
-            product_data_mock
+            _ProductMock
                .Setup(p => p.GetProductById(It.IsAny<int>()))
                .Returns(default(ProductDTO));
 
-            var controller = new CatalogController(product_data_mock.Object);
+            var controller = new CatalogController(_ProductMock.Object, _ConfigMock.Object);
 
             #endregion
 
             #region Act
 
-            var result = controller.Details(expected_id, logger_mock.Object);
+            var result = controller.Details(expected_id, _LoggerMock.Object);
 
             #endregion
 
@@ -104,7 +117,6 @@ namespace WebStore.Tests.Controllers
         public void Shop_Returns_Correct_View()
         {
             #region Arrange - размещение данных
-            var product_data_mock = new Mock<IProductData>();
 
             var products = new[]
             {
@@ -148,7 +160,7 @@ namespace WebStore.Tests.Controllers
                 }
             };
 
-            product_data_mock
+            _ProductMock
                .Setup(p => p.GetProducts(It.IsAny<ProductFilter>()))
                .Returns<ProductFilter>(filter => new PagedProductDTO
                {
@@ -156,7 +168,7 @@ namespace WebStore.Tests.Controllers
                    TotalCount = products.Length
                });
 
-            var controller = new CatalogController(product_data_mock.Object);
+            var controller = new CatalogController(_ProductMock.Object, _ConfigMock.Object);
 
             const int expected_section_id = 1;
             const int expected_brand_id = 5;
