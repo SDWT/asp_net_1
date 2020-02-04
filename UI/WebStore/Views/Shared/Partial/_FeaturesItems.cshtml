@@ -1,9 +1,9 @@
-﻿@model IEnumerable<ProductViewModel>
+﻿@model CatalogViewModel
 
 <div class="features_items">
     <!--features_items-->
     <h2 class="title text-center">Features Items</h2>
-    @foreach (var product in Model)
+    @foreach (var product in Model.Products)
     {
         @*Сделать ограничитель по количеству на страницу и многостроничность*@
         <div class="col-sm-4">
@@ -40,10 +40,9 @@
             </div>
         </div>
     }
-    <ul class="pagination">
-        <li class="active"><a href="">1</a></li>
-        <li><a href="">2</a></li>
-        <li><a href="">3</a></li>
-        <li><a href="">&raquo;</a></li>
-    </ul>
+    <paging page-model="@Model.PageViewModel"
+            page-action="@ViewBag.PageAction"
+            page-url-SectionId="@Model.SectionId"
+            page-url-BrandId="@Model.BrandId">
+    </paging>
 </div><!--features_items-->

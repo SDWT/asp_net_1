@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -14,6 +15,7 @@ namespace WebStore.Tests.Controllers
     [TestClass]
     public class HomeControllerTests
     {
+        private Mock<IConfiguration> _ConfigMock;
         private HomeController _Controller;
 
         [TestInitialize]
@@ -72,8 +74,8 @@ namespace WebStore.Tests.Controllers
                });
 
 
-
-            _Controller = new HomeController(product_data_mock.Object);
+            _ConfigMock = new Mock<IConfiguration>();
+            _Controller = new HomeController(product_data_mock.Object, _ConfigMock.Object);
         }
 
         [TestMethod]

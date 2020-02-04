@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Магазин";
+    ViewBag.PageAction = "Shop";
 }
 
 <vc:bread-crumbs />
@@ -17,7 +18,7 @@
             </div>
 
             <div class="col-sm-9 padding-right">
-                <partial name="Partial/_FeaturesItems" model="@Model.Products" />
+                <partial name="Partial/_FeaturesItems" model="@Model" />
                 @*@await Html.PartialAsync("Partial/_FeaturesItems", Model.Products)*@
             </div>
         </div>
