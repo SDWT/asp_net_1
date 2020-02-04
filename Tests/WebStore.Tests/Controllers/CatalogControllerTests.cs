@@ -106,37 +106,55 @@ namespace WebStore.Tests.Controllers
             #region Arrange - размещение данных
             var product_data_mock = new Mock<IProductData>();
 
-            product_data_mock
-               .Setup(p => p.GetProducts(It.IsAny<ProductFilter>()))
-               .Returns<ProductFilter>(filter => new[]
+            var products = new[]
+            {
+                new ProductDTO
                 {
-                    new ProductDTO
+                    Id = 1,
+                    Name = "Product 1",
+                    Order = 0,
+                    Price = 10m,
+                    ImageUrl = "product1.jpg",
+                    Brand = new BrandDTO
                     {
                         Id = 1,
-                        Name = "Product 1",
-                        Order = 0,
-                        Price = 10m,
-                        ImageUrl = "product1.jpg",
-                        Brand = new BrandDTO
-                        {
-                            Id = 1,
-                            Name = "Brand of product 1"
-                        }
+                        Name = "Brand of product 1"
                     },
-                    new ProductDTO
+                    Section = new SectionDTO
+                    {
+                        Id = 1,
+                        Name = "Section of product 1",
+                        Order = 1
+                    }
+                },
+                new ProductDTO
+                {
+                    Id = 2,
+                    Name = "Product 2",
+                    Order = 1,
+                    Price = 20m,
+                    ImageUrl = "product2.jpg",
+                    Brand = new BrandDTO
                     {
                         Id = 2,
-                        Name = "Product 2",
-                        Order = 1,
-                        Price = 20m,
-                        ImageUrl = "product2.jpg",
-                        Brand = new BrandDTO
-                        {
-                            Id = 2,
-                            Name = "Brand of product 2"
-                        }
+                        Name = "Brand of product 2"
+                    },
+                    Section = new SectionDTO
+                    {
+                        Id = 2,
+                        Name = "Section of product 2",
+                        Order = 2
                     }
-                });
+                }
+            };
+
+            product_data_mock
+               .Setup(p => p.GetProducts(It.IsAny<ProductFilter>()))
+               .Returns<ProductFilter>(filter => new PagedProductDTO
+               {
+                   Products = products,
+                   TotalCount = products.Length
+               });
 
             var controller = new CatalogController(product_data_mock.Object);
 

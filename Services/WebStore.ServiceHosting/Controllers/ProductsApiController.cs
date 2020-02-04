@@ -39,7 +39,7 @@ namespace WebStore.ServiceHosting.Controllers
         /// <param name="Filter">Фильтр, может отсуствовать</param>
         /// <returns>Перечисление товаров</returns>
         [HttpPost, ActionName("Post")]
-        public IEnumerable<ProductDTO> GetProducts([FromBody] ProductFilter Filter = null)
+        public PagedProductDTO GetProducts([FromBody] ProductFilter Filter = null)
         {
             return _ProductData.GetProducts(Filter);
         }

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using WebStore.Interfaces.Services;
-using WebStore.Domain.ViewModels;
 using WebStore.Domain.Entities;
+using WebStore.Domain.ViewModels;
+using WebStore.Interfaces.Services;
 using WebStore.Services.Map;
 
 namespace WebStore.Controllers
@@ -28,7 +28,7 @@ namespace WebStore.Controllers
                 {
                     SectionId = SectionId,
                     BrandId = BrandId,
-                    Products = products.Select(ProductMapper.ToViewModel).OrderBy(p => p.Order)
+                    Products = products.Products.Select(ProductMapper.ToViewModel).OrderBy(p => p.Order)
                 }
             });
         }

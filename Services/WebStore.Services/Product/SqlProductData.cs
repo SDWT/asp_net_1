@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WebStore.DAL.Context;
+using WebStore.Domain.DTO.Products;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Services;
-using System.Threading.Tasks;
-using WebStore.Domain.DTO.Products;
 using WebStore.Services.Map;
 
 namespace WebStore.Services.Product
@@ -24,7 +24,7 @@ namespace WebStore.Services.Product
             //.Include(section => section.Products)
             .AsEnumerable();
 
-        public IEnumerable<ProductDTO> GetProducts(ProductFilter Filter = null)
+        public PagedProductDTO GetProducts(ProductFilter Filter = null)
         {
             IQueryable<Domain.Entities.Product> query = _db.Products;
 
@@ -33,14 +33,23 @@ namespace WebStore.Services.Product
 
             if (Filter?.SectionId != null)
                 query = query.Where(product => product.SectionId == Filter.SectionId);
-            
-            
-            // query.ToArray();
-            return query
-                .Include(p => p.Brand)
-                .Include(p => p.Section)
-                .Select(ProductMapper.ToDTO)
-                .AsEnumerable();
+
+            var total_count = query.Count();
+
+            if (Filter?.PageSize != null)
+                query = query
+                    .Skip((Filter.Page - 1) * (int)Filter.PageSize)
+                    .Take((int)Filter.PageSize);
+
+            return new PagedProductDTO
+            {
+                Products = query
+                    .Include(p => p.Brand)
+                    .Include(p => p.Section)
+                    .Select(ProductMapper.ToDTO)
+                    .AsEnumerable(),
+                TotalCount = total_count
+            };
         }
 
         public ProductDTO GetProductById(int id) => _db.Products
@@ -92,6 +101,4 @@ namespace WebStore.Services.Product
 
         public Brand GetBrandById(int id) => _db.Brands.FirstOrDefault(brand => brand.Id == id);
     }
-
-    
 }
