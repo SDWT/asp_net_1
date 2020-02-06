@@ -159,7 +159,13 @@ namespace WebStore.Services.Tests.Product
                     Price = 1.1m,
                     Order = 0,
                     ImageUrl = "Product1.png",
-                    Brand = new BrandDTO {Id = 1, Name = "Brand 1"}
+                    Brand = new BrandDTO {Id = 1, Name = "Brand 1"},
+                    Section = new SectionDTO
+                    {
+                        Id = 1,
+                        Name = "Section of product 1",
+                        Order = 1
+                    }
                 },
                 new ProductDTO
                 {
@@ -168,14 +174,24 @@ namespace WebStore.Services.Tests.Product
                     Price = 2.1m,
                     Order = 0,
                     ImageUrl = "Product1.png",
-                    Brand = new BrandDTO {Id = 1, Name = "Brand 1"}
+                    Brand = new BrandDTO {Id = 1, Name = "Brand 1"},
+                    Section = new SectionDTO
+                    {
+                        Id = 2,
+                        Name = "Section of product 2",
+                        Order = 2
+                    }
                 },
             };
 
             var product_data_mock = new Mock<IProductData>();
             product_data_mock
                .Setup(c => c.GetProducts(It.IsAny<ProductFilter>()))
-               .Returns(products);
+               .Returns(new PagedProductDTO
+               {
+                   Products = products,
+                   TotalCount = products.Count
+               });
 
             var cart_service = new CartService(product_data_mock.Object, _CartStoreMock.Object);
 

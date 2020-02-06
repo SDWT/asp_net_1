@@ -2525,3 +2525,17 @@ h2.title {
 {
     text-decoration: underline
 }
+
+.cart-container
+{
+    position: relative;
+    display: flex;
+}
+
+#cart-notification-container
+{
+    position:absolute;
+    top: 30px;
+    left: -50px;
+    width: 200px;
+}

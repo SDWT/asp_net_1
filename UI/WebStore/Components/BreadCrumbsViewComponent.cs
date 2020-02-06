@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using WebStore.Domain.DTO.Products;
 using WebStore.Domain.ViewModels.BreadCrumbs;
 using WebStore.Interfaces.Services;
+using System.Xml.Serialization;
+using WebStore.Controllers;
 
 namespace WebStore.Components
 {
@@ -13,8 +15,58 @@ namespace WebStore.Components
 
         public BreadCrumbsViewComponent(IProductData ProductData) => _ProductData = ProductData;
 
-        public IViewComponentResult Invoke(BreadCrumbType Type, int id, BreadCrumbType FromType)
+        private void GetParameters(out BreadCrumbType Type, out int id, out BreadCrumbType FromType)
         {
+            if (Request.Query.ContainsKey("SectionId"))
+                Type = BreadCrumbType.Section;
+            else if (Request.Query.ContainsKey("BrandId"))
+                Type = BreadCrumbType.Brand;
+            else
+                Type = BreadCrumbType.None;
+
+            if ((string)ViewContext.RouteData.Values["action"] == nameof(CatalogController.Details))
+                Type = BreadCrumbType.Product;
+
+            id = 0;
+            FromType = BreadCrumbType.Section;
+            int parseId;
+
+            switch (Type)
+            {
+                default: throw new ArgumentOutOfRangeException();
+
+                case BreadCrumbType.None: break;
+
+                case BreadCrumbType.Section:
+                    if (int.TryParse(Request.Query["SectionId"].ToString(), out parseId))
+                    {
+                        id = parseId;
+                    }
+                    break;
+                case BreadCrumbType.Brand:
+                    if (int.TryParse(Request.Query["BrandId"].ToString(), out parseId))
+                    {
+                        id = parseId;
+                    }
+                    break;
+                case BreadCrumbType.Product:
+                    if (int.TryParse(ViewContext.RouteData.Values["id"].ToString(), out parseId))
+                    {
+                        id = parseId;
+                    }
+
+                    if (Request.Query.ContainsKey("FromBrand"))
+                    {
+                        FromType = BreadCrumbType.Brand;
+                    }
+                    break;
+            }
+        }
+
+        public IViewComponentResult Invoke()
+        {
+            GetParameters(out var Type, out var id, out var FromType);
+
             switch (Type)
             {
                 case BreadCrumbType.Section:

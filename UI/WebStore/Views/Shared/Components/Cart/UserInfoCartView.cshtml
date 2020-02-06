@@ -1,0 +1,17 @@
+﻿@model CartViewModel
+@*<a asp-controller="Cart" asp-action="Details" style="position:relative">
+        <i class="fa fa-shopping-cart"></i> Корзина (@Model.ItemsCount)
+        <div class="pull-right" id="cart-container">
+            Товар добавлен в корзину
+        </div>
+    </a>*@
+    <div class="cart-container">
+        <a asp-controller="Cart" asp-action="Details">
+            <i class="fa fa-shopping-cart"></i> Корзина (<span id="cart-count-container" data-count="@Model.ItemsCount">@Model.ItemsCount</span>)
+        </a>
+        @*<div class="pull-right" id="cart-notification-container">
+
+        </div>*@
+    </div>
+
+

@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using SimpleMvcSitemap;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using SimpleMvcSitemap;
 using WebStore.Interfaces.Services;
 
 namespace WebStore.Controllers
@@ -32,7 +30,7 @@ namespace WebStore.Controllers
             nodes.AddRange(ProductData.GetBrands().Select(brand =>
                 new SitemapNode(Url.Action("Shop", "Catalog", new { BrandId = brand.Id }))));
 
-            nodes.AddRange(ProductData.GetProducts().Select(product =>
+            nodes.AddRange(ProductData.GetProducts().Products.Select(product =>
                 new SitemapNode(Url.Action("Details", "Catalog", new { product.Id }))));
 
             return new SitemapProvider().CreateSitemap(new SitemapModel(nodes));

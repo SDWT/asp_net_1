@@ -5,6 +5,7 @@
 
     //ViewData["Title"] = "Главная страница";
     ViewBag.Title = "Главная страница";
+    ViewBag.PageAction = "Index";
 }
 
 @*@await Html.PartialAsync("Partial/_Slider");*@
@@ -19,7 +20,7 @@
             </div>
 
             <div class="col-sm-9 padding-right">
-                <partial name="Partial/_FeaturesItems" model="@Model.Catalog.Products" />
+                <partial name="Partial/_FeaturesItems" model="@Model.Catalog" />
 
                 @await Html.PartialAsync("Partial/_CategoryTab");
 
