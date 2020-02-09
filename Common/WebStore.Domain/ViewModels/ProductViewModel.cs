@@ -15,5 +15,7 @@ namespace WebStore.Domain.ViewModels
         public decimal Price { get; set; }
 
         public string Brand { get; set; }
+
+        public string Section { get; set; }
     }
 }

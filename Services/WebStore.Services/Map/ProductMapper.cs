@@ -35,7 +35,8 @@ namespace WebStore.Services.Map
             Order = product.Order,
             Price = product.Price,
             ImageUrl = product.ImageUrl,
-            Brand = product.Brand?.Name
+            Brand = product.Brand?.Name,
+            Section = product.Section?.Name
         };
 
         public static ProductDTO FromViewModel(this ProductViewModel product) => product is null ? null : new ProductDTO
