@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -6,7 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using WebStore.Domain.DTO.Products;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Identity;
+using WebStore.Domain.ViewModels;
 using WebStore.Interfaces.Services;
+using WebStore.Services.Map;
 
 namespace WebStore.Areas.Admin.Controllers
 {
@@ -23,7 +26,26 @@ namespace WebStore.Areas.Admin.Controllers
         // GET: Admin/Products
         public IActionResult Index()
         {
-            return View(_ProductData.GetProducts());
+            int? page_size = null;
+            var Page = 0;
+
+            var products = _ProductData.GetProducts(new ProductFilter
+            {
+                Page = Page,
+                PageSize = page_size
+            });
+
+            var model = new CatalogViewModel
+            {
+                Products = products.Products.Select(ProductMapper.ToViewModel).OrderBy(p => p.Order),
+                PageViewModel = new PageViewModel
+                {
+                    PageSize = page_size ?? 0,
+                    PageNumber = Page,
+                    TotalItems = products.TotalCount
+                }
+            };
+            return base.View(model);
         }
 
         // GET: Admin/Products/Details/5

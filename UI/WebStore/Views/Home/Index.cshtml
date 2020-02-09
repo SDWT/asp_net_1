@@ -20,7 +20,19 @@
             </div>
 
             <div class="col-sm-9 padding-right">
-                <partial name="Partial/_FeaturesItems" model="@Model.Catalog" />
+                <div>
+                    <div id="catalog-items-container">
+                        <partial name="Partial/_FeaturesItems" model="@Model.Catalog" />
+                        @*@await Html.PartialAsync("Partial/_FeaturesItems", Model.Products)*@
+                    </div>
+                    <div>
+                        <paging page-model="@Model.Catalog.PageViewModel"
+                                page-action="@ViewBag.PageAction"
+                                page-url-SectionId="@Model.Catalog.SectionId"
+                                page-url-BrandId="@Model.Catalog.BrandId">
+                        </paging>
+                    </div>
+                </div>
 
                 @await Html.PartialAsync("Partial/_CategoryTab");
 
@@ -37,5 +49,13 @@
 
 @section Scripts
 {
-    <!-- Скрипты -->
+    <script src="~/lib/jquery-loading-overlay/loadingoverlay.min.js"></script>
+    <script src="~/js/Shop/ProductItems.js" asp-append-version="true"></script>
+    <script>
+        $(function() {
+            ProductItems.init({
+                getUrl: "@Url.Action("GetFilteredItems", "Catalog")"
+            });
+        })
+    </script>
 }
