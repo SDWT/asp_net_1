@@ -47,7 +47,7 @@ namespace WebStore.Controllers
 
         public IActionResult GetFilteredItems(int? SectionId, int? BrandId, int Page)
         {
-            return PartialView("Partial/_FeaturesItem", GetCatalogViewModel(SectionId, BrandId, Page));
+            return PartialView("Partial/_FeaturesItems", GetCatalogViewModel(SectionId, BrandId, Page));
         }
 
         private CatalogViewModel GetCatalogViewModel(int? SectionId, int? BrandId, int Page)
