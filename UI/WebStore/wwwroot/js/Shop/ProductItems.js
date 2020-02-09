@@ -4,8 +4,8 @@
     },
 
     init: properties => {
-        $extend(ProductItems._properties, properties);
-        $(".pagination li a").click(ProductItems._properties);
+        $.extend(ProductItems._properties, properties);
+        $(".pagination li a").click(ProductItems.clickOnPage);
     },
 
     clickOnPage: function (event) {
@@ -23,19 +23,19 @@
             let query = "";
             for (let key in data) {
                 if (data.hasOwnProperty(key)) {
-                    query += `${key}=${data[key]}`;
-                    // query += key + "=" + data[key];
+                    query += `${key}=${data[key]}&`;
+                // query += key + "=" + data[key];
                 }
             }
 
-            $.get(`${ProductItems._properties.getUrl}?{query}`)
+            $.get(`${ProductItems._properties.getUrl}?${query}`)
                 .done(html => {
                     container.html(html);
                     container.LoadingOverlay("hide");
 
                     $(".pagination li").removeClass("active");
                     $(".pagination li a").prop("href", "#");
-                    $(".pagination li a[data-page=${page}]")
+                    $(`.pagination li a[data-page=${page}]`)
                         .removeAttr("href")
                         .parent().addClass("active");
                 })
