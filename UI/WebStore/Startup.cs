@@ -32,6 +32,14 @@ namespace WebStore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddResponseCompression(
+                opt =>
+                {
+                    opt.EnableForHttps = true;
+                    opt.ExcludedMimeTypes = new[] { "application/jpg" };
+                    //opt.Providers.Add<>();
+                });
+
             services.AddSingleton<IEmployeesData, EmployeesClient>();
             services.AddScoped<IProductData, ProductsClient>();
             services.AddScoped<ICartService, CartService>();
@@ -112,6 +120,8 @@ namespace WebStore
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
             }
+
+            app.UseResponseCompression();
 
             // For all types files
             app.UseStaticFiles(/*new StaticFileOptions { ServeUnknownFileTypes = true}*/);
